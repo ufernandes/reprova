@@ -1,6 +1,8 @@
 # Reprova
 
-Trabalho prático da disciplina de Reuso de Software, DCC/UFMG, 2020/1
+Trabalho prático da disciplina de Medição e Qualidade de Software (DCC890), DCC/UFMG, 2020/2.
+
+TODO - Atualizar documentação.
 
 ## Instruções de construção/ambiente (Eclipse)
 
