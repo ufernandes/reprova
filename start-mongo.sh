@@ -1,2 +1,2 @@
 #! /bin/bash
-docker run -p27017:27017 mvertes/alpine-mongo
+docker run -d --name mongo -p27017:27017 mvertes/alpine-mongo
