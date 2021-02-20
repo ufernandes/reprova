@@ -5,21 +5,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-
 	<groupId>reprova</groupId>
 	<artifactId>reprova</artifactId>
 	<version>0.1</version>
 	<packaging>jar</packaging>
 
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.release>11</maven.compiler.release>
-		<!-- https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-maven/ -->
-		<sonar.login>eb6924ffadcd4f9c5e447a19c7ab6963fce3a5c5</sonar.login>
 	</properties>
-
 
 	<dependencies>
 
