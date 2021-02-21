@@ -8,12 +8,12 @@ import java.util.List;
 import br.ufmg.engsoft.reprova.model.Environments;
 import br.ufmg.engsoft.reprova.model.Question;
 import br.ufmg.engsoft.reprova.model.Questionnaire;
-import br.ufmg.engsoft.reprova.database.QuestionsDAO;
+import br.ufmg.engsoft.reprova.database.IQuestionsDAO;
 import br.ufmg.engsoft.reprova.model.difficulty.DifficultyFactory;
 
 public class DefaultGenerator implements IQuestionnaireGenerator{
 
-  public Questionnaire generate(QuestionsDAO questionsDAO, String averageDifficulty, int questionsCount, int totalEstimatedTime){
+  public Questionnaire generate(IQuestionsDAO questionsDAO, String averageDifficulty, int questionsCount, int totalEstimatedTime){
     if (totalEstimatedTime == 0){
       totalEstimatedTime = Questionnaire.DEFAULT_ESTIMATED_TIME_MINUTES;
     }

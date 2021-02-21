@@ -8,7 +8,7 @@ import java.util.List;
 import br.ufmg.engsoft.reprova.model.Environments;
 import br.ufmg.engsoft.reprova.model.Question;
 import br.ufmg.engsoft.reprova.model.Questionnaire;
-import br.ufmg.engsoft.reprova.database.QuestionsDAO;
+import br.ufmg.engsoft.reprova.database.IQuestionsDAO;
 import br.ufmg.engsoft.reprova.model.difficulty.DifficultyFactory;
 
 public class DifficultyGroupGenerator implements IQuestionnaireGenerator{
@@ -39,7 +39,7 @@ public class DifficultyGroupGenerator implements IQuestionnaireGenerator{
    * Selects a collection of questions the best fit the parameters.
    * Calls the Questionnaire's Builder.
    */
-  public Questionnaire generate(QuestionsDAO questionsDAO, String averageDifficulty, int questionsCount, int totalEstimatedTime){
+  public Questionnaire generate(IQuestionsDAO questionsDAO, String averageDifficulty, int questionsCount, int totalEstimatedTime){
     Environments environments = Environments.getInstance();
     int valueDifficultyGroup = environments.getDifficultyGroup();
     List<String> difficultyGroup = new DifficultyFactory()
@@ -94,19 +94,26 @@ public class DifficultyGroupGenerator implements IQuestionnaireGenerator{
         } else {
           easierDifficultyIndex++;
         }
-
-        if (harderQuestionsCount != -1){
-          List<Question> harderQuestions = getQuestionsOfDifficulty(allQuestions, harderQuestionsCount, difficultyGroup.get(harderDifficultyIndex));
-          harderQuestionsCount -= harderQuestions.size();
-          remainingQuestionsCount -= harderQuestions.size();
-          questions.addAll(harderQuestions);
+        
+        if (easierDifficultyIndex == -1 && harderDifficultyIndex == -1) {
+        	averageQuestions = getQuestionsOfDifficulty(allQuestions, remainingQuestionsCount, "Average");
+          remainingQuestionsCount -= averageQuestions.size();
+          questions.addAll(averageQuestions);
         }
-
-        if (easierQuestionsCount != -1){
-          List<Question> easierQuestions = getQuestionsOfDifficulty(allQuestions, easierQuestionsCount, difficultyGroup.get(easierDifficultyIndex));
-          easierQuestionsCount -= easierQuestions.size();
-          remainingQuestionsCount -= easierQuestions.size();
-          questions.addAll(easierQuestions);
+        else {
+	        if (harderQuestionsCount != -1){
+	          List<Question> harderQuestions = getQuestionsOfDifficulty(allQuestions, harderQuestionsCount, difficultyGroup.get(harderDifficultyIndex));
+	          harderQuestionsCount -= harderQuestions.size();
+	          remainingQuestionsCount -= harderQuestions.size();
+	          questions.addAll(harderQuestions);
+	        }
+	
+	        if (easierQuestionsCount != -1){
+	          List<Question> easierQuestions = getQuestionsOfDifficulty(allQuestions, easierQuestionsCount, difficultyGroup.get(easierDifficultyIndex));
+	          easierQuestionsCount -= easierQuestions.size();
+	          remainingQuestionsCount -= easierQuestions.size();
+	          questions.addAll(easierQuestions);
+	        }
         }
       }
     }

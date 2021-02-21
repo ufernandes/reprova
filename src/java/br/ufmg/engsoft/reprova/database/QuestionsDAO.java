@@ -27,7 +27,7 @@ import br.ufmg.engsoft.reprova.model.Question;
 /**
  * DAO for Question class on mongodb.
  */
-public class QuestionsDAO {
+public class QuestionsDAO implements IQuestionsDAO {
     /**
      * Logger instance.
      */

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 import br.ufmg.engsoft.reprova.database.QuestionsDAO;
+import br.ufmg.engsoft.reprova.database.IQuestionsDAO;
 import br.ufmg.engsoft.reprova.model.Question;
 import br.ufmg.engsoft.reprova.model.ReprovaRoute;
 import br.ufmg.engsoft.reprova.mime.json.Json;
@@ -32,7 +33,7 @@ public class Questions extends ReprovaRoute {
   /**
    * DAO for Question.
    */
-  protected final QuestionsDAO questionsDAO;
+  protected final IQuestionsDAO questionsDAO;
 
   /**
    * Instantiate the questions endpoint.
@@ -41,7 +42,7 @@ public class Questions extends ReprovaRoute {
    * @param questionsDAO  the DAO for Question
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public Questions(Json json, QuestionsDAO questionsDAO) {
+  public Questions(Json json, IQuestionsDAO questionsDAO) {
     if (json == null) {
       throw new IllegalArgumentException("json mustn't be null");
     }

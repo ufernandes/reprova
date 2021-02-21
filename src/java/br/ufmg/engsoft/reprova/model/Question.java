@@ -77,6 +77,7 @@ public class Question {
         protected List<String> difficultyGroup;
         protected Map<String, Boolean> choices;
         protected Map<String, Double> statistics;
+        protected Environments environments;
 
         public Builder id(String id) {
             this.id = id;
@@ -122,22 +123,16 @@ public class Question {
             this.difficulty = difficulty;
             return this;
         }
-        
-        public Builder statistics(Map<String, Double> statistics) {
-        	this.statistics = statistics;
-        	return this;
-        }
-
-        public Builder difficultyGroup(List<String> difficulty) {
-            this.difficultyGroup = difficulty;
-            return this;
-				}
 				
     /**
      * Calculate the difficulty based on the record and the difficultyGroup. Should
      * be called when changes are made to the record.
      */
     public Question build() {
+      if (environments == null) {
+        environments = Environments.getInstance();
+      }
+
       if (theme == null) {
         throw new IllegalArgumentException("theme mustn't be null");
       }
@@ -165,23 +160,21 @@ public class Question {
         }    
       }
       
-      if (this.statistics == null && Environments.getInstance().getEnableQuestionStatistics()) {
+      if (this.statistics == null && environments.getEnableQuestionStatistics()) {
     	  this.statistics = new HashMap<String, Double>();
       }
 
-      if (!Environments.getInstance().getEnableEstimatedTime()){
+      if (!environments.getEnableEstimatedTime()){
         this.estimatedTime = null;
       } else {
         this.estimatedTime = estimatedTime;
       }
       
-      if (!Environments.getInstance().getEnableMultipleChoice()){
+      if (!environments.getEnableMultipleChoice()){
         this.choices = null;
       } else {
         this.choices = choices;
       }
-
-      Environments environments = Environments.getInstance();
 
       if (environments.getDifficultyGroup() != 0) {
     	// TODO validate possible values (3 and 5)
