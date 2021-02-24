@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import br.ufmg.engsoft.reprova.model.Environments;
 import br.ufmg.engsoft.reprova.model.Question;
 import br.ufmg.engsoft.reprova.model.Semester;
 import br.ufmg.engsoft.reprova.tests.utils.EnvironmentUtils;
@@ -19,7 +20,7 @@ public class QuestionTest {
 
   @BeforeEach
   public void init() throws Exception {
-  	EnvironmentUtils.clearEnv();
+  	EnvironmentUtils.setEnvVariables(false, 0);
   	
     var year = 2021;
     var ref = Semester.Reference.fromInt(1);

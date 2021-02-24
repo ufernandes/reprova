@@ -8,7 +8,7 @@ import java.util.List;
 import br.ufmg.engsoft.reprova.model.Environments;
 import br.ufmg.engsoft.reprova.model.Question;
 import br.ufmg.engsoft.reprova.model.Questionnaire;
-import br.ufmg.engsoft.reprova.database.IQuestionsDAO;
+import br.ufmg.engsoft.reprova.database.QuestionsDAO;
 import br.ufmg.engsoft.reprova.model.difficulty.DifficultyFactory;
 
 public class DifficultyGroupGenerator implements IQuestionnaireGenerator{
@@ -39,7 +39,7 @@ public class DifficultyGroupGenerator implements IQuestionnaireGenerator{
    * Selects a collection of questions the best fit the parameters.
    * Calls the Questionnaire's Builder.
    */
-  public Questionnaire generate(IQuestionsDAO questionsDAO, String averageDifficulty, int questionsCount, int totalEstimatedTime){
+  public Questionnaire generate(QuestionsDAO questionsDAO, String averageDifficulty, int questionsCount, int totalEstimatedTime){
     Environments environments = Environments.getInstance();
     int valueDifficultyGroup = environments.getDifficultyGroup();
     List<String> difficultyGroup = new DifficultyFactory()

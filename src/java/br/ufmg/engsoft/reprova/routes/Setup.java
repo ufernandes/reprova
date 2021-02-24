@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.ufmg.engsoft.reprova.database.AnswersDAO;
-import br.ufmg.engsoft.reprova.database.IQuestionsDAO;
+import br.ufmg.engsoft.reprova.database.QuestionsDAO;
 import br.ufmg.engsoft.reprova.database.QuestionsDAO;
 import br.ufmg.engsoft.reprova.routes.api.Answers;
 import br.ufmg.engsoft.reprova.routes.api.Questions;
@@ -45,7 +45,7 @@ public class Setup {
    * @param questionsDAO  the DAO for Question
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public static void routes(Json json, IQuestionsDAO questionsDAO) {
+  public static void routes(Json json, QuestionsDAO questionsDAO) {
     if (json == null) {
       throw new IllegalArgumentException("json mustn't be null");
     }
@@ -75,7 +75,7 @@ public class Setup {
       answers.setup();
   }
   
-  public static void questionnaireRoutes(Json json, QuestionnairesDAO questionnairesDAO, IQuestionsDAO questionsDAO) {
+  public static void questionnaireRoutes(Json json, QuestionnairesDAO questionnairesDAO, QuestionsDAO questionsDAO) {
       logger.info("Setting up questionnaires route:");
       if (questionnairesDAO == null) {
           throw new IllegalArgumentException("questionnairesDAO mustn't be null");

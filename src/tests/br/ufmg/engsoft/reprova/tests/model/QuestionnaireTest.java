@@ -9,13 +9,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import br.ufmg.engsoft.reprova.model.Questionnaire;
-import br.ufmg.engsoft.reprova.database.IQuestionsDAO;
+import br.ufmg.engsoft.reprova.database.QuestionsDAO;
 import br.ufmg.engsoft.reprova.model.Question;
 import br.ufmg.engsoft.reprova.tests.utils.EnvironmentUtils;
 
 
 public class QuestionnaireTest {
-	private IQuestionsDAO _questionsDAO;
+	private QuestionsDAO _questionsDAO;
 	private ArrayList<Question> _questions;
 	
 	private void setUpQuestionsDAOMock(int questionsCount, int estimatedTime) {
@@ -32,13 +32,13 @@ public class QuestionnaireTest {
 			);
     }
   	
-  	_questionsDAO = mock(IQuestionsDAO.class);
+  	_questionsDAO = mock(QuestionsDAO.class);
   	when(_questionsDAO.list(null, null)).thenReturn(_questions);
 	}
 	
   @BeforeEach
   public void init() throws Exception {
-  	EnvironmentUtils.clearEnv();
+  	EnvironmentUtils.setEnvVariables(false, 0);
   }
   
   /**

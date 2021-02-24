@@ -2,7 +2,7 @@ package br.ufmg.engsoft.reprova.model;
 
 import java.util.ArrayList;
 
-import br.ufmg.engsoft.reprova.database.IQuestionsDAO;
+import br.ufmg.engsoft.reprova.database.QuestionsDAO;
 import br.ufmg.engsoft.reprova.model.generator.QuestionnaireGeneration;
 import br.ufmg.engsoft.reprova.model.generator.EstimatedTimeCalculator;
 
@@ -57,7 +57,7 @@ public class Questionnaire{
       return this;
     }
 
-    public Questionnaire generate(IQuestionsDAO questionsDAO){
+    public Questionnaire generate(QuestionsDAO questionsDAO){
       QuestionnaireGeneration generationChain = new QuestionnaireGeneration();
 
       Environments environments = Environments.getInstance();

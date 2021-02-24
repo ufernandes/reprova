@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 import br.ufmg.engsoft.reprova.database.QuestionnairesDAO;
-import br.ufmg.engsoft.reprova.database.IQuestionsDAO;
+import br.ufmg.engsoft.reprova.database.QuestionsDAO;
 import br.ufmg.engsoft.reprova.model.Environments;
 import br.ufmg.engsoft.reprova.model.Question;
 import br.ufmg.engsoft.reprova.model.Questionnaire;
@@ -48,7 +48,7 @@ public class Questionnaires {
   /**
    * DAO for Question.
    */
-  protected final IQuestionsDAO questionsDAO;
+  protected final QuestionsDAO questionsDAO;
 
   /**
    * Instantiate the questionnaires endpoint.
@@ -58,7 +58,7 @@ public class Questionnaires {
    * @param questionsDAO  the DAO for Question
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public Questionnaires(Json json, QuestionnairesDAO questionnairesDAO, IQuestionsDAO questionsDAO) {
+  public Questionnaires(Json json, QuestionnairesDAO questionnairesDAO, QuestionsDAO questionsDAO) {
     if (json == null) {
       throw new IllegalArgumentException("json mustn't be null");
     }
