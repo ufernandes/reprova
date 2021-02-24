@@ -1,9 +1,7 @@
 package br.ufmg.engsoft.reprova.tests.model;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.lang.reflect.Field;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,24 +1,41 @@
 package br.ufmg.engsoft.reprova.tests.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Collections;
-import java.lang.reflect.Field;
+
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import br.ufmg.engsoft.reprova.model.Questionnaire;
-import br.ufmg.engsoft.reprova.database.Mongo;
-import br.ufmg.engsoft.reprova.mocks.QuestionsDAOMock;
-import br.ufmg.engsoft.reprova.mime.json.Json;
+import br.ufmg.engsoft.reprova.database.IQuestionsDAO;
 import br.ufmg.engsoft.reprova.model.Question;
 import br.ufmg.engsoft.reprova.tests.utils.EnvironmentUtils;
 
 
 public class QuestionnaireTest {
+	private IQuestionsDAO _questionsDAO;
+	private ArrayList<Question> _questions;
+	
+	private void setUpQuestionsDAOMock(int questionsCount, int estimatedTime) {
+		_questions = new ArrayList<Question>();
+
+    for (int i = 0; i < questionsCount; i++) {
+	    _questions.add(
+	  		new Question.Builder()
+	    		.theme("theme " + (i+1))
+	    		.description("description " + (i+1))
+          .difficulty("Average")
+          .estimatedTime(estimatedTime)
+	    		.build()
+			);
+    }
+  	
+  	_questionsDAO = mock(IQuestionsDAO.class);
+  	when(_questionsDAO.list(null, null)).thenReturn(_questions);
+	}
+	
   @BeforeEach
   public void init() throws Exception {
   	EnvironmentUtils.clearEnv();
@@ -92,10 +109,10 @@ public class QuestionnaireTest {
    */
   @Test
   void generateSuccess_defaultValues() throws Exception {
-  	var questionsDAO = new QuestionsDAOMock(8, 8);
+  	setUpQuestionsDAOMock(8, 8);
   	
     var questionnaire = new Questionnaire.Generator()
-      .generate(questionsDAO);
+      .generate(_questionsDAO);
     
     assertFalse(questionnaire == null);
     assertEquals(null, questionnaire.id);
@@ -111,14 +128,14 @@ public class QuestionnaireTest {
   @Test
   void generateSuccess_allValues() throws Exception {
   	EnvironmentUtils.setEnvVariables(true, 3);
-  	var questionsDAO = new QuestionsDAOMock(8, 8);
+  	setUpQuestionsDAOMock(8, 8);
   	
     var questionnaire = new Questionnaire.Generator()
 			.id("1")
     	.totalEstimatedTime(8)
     	.averageDifficulty("Average")
     	.questionsCount(1)
-      .generate(questionsDAO);
+      .generate(_questionsDAO);
     
     assertFalse(questionnaire == null);
     assertEquals(null, questionnaire.id);
@@ -134,14 +151,14 @@ public class QuestionnaireTest {
   @Test
   void generateSuccess_allValues_fiveDifficulties() throws Exception {
   	EnvironmentUtils.setEnvVariables(true, 5);
-  	var questionsDAO = new QuestionsDAOMock(8, 8);
+  	setUpQuestionsDAOMock(8, 8);
   	
     var questionnaire = new Questionnaire.Generator()
 			.id("1")
     	.totalEstimatedTime(8)
     	.averageDifficulty("Average")
     	.questionsCount(1)
-      .generate(questionsDAO);
+      .generate(_questionsDAO);
     
     assertFalse(questionnaire == null);
     assertEquals(null, questionnaire.id);
