@@ -17,9 +17,10 @@ public class QuestionTest {
 	private Semester _semester;
   private Map<Semester, Map<String, Map<String, Float>>> _record = new HashMap<Semester, Map<String, Map<String, Float>>>();
   private Map<String, Boolean> _choices = new HashMap<String, Boolean>();
-
+	
   @BeforeEach
   public void init() throws Exception {
+		Environments.reset();
   	EnvironmentUtils.setEnvVariables(false, 0);
   	
     var year = 2021;

@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import br.ufmg.engsoft.reprova.model.Questionnaire;
 import br.ufmg.engsoft.reprova.database.QuestionsDAO;
+import br.ufmg.engsoft.reprova.model.Environments;
 import br.ufmg.engsoft.reprova.model.Question;
 import br.ufmg.engsoft.reprova.tests.utils.EnvironmentUtils;
 
@@ -38,6 +39,7 @@ public class QuestionnaireTest {
 	
   @BeforeEach
   public void init() throws Exception {
+		Environments.reset();
   	EnvironmentUtils.setEnvVariables(false, 0);
   }
   
@@ -117,8 +119,8 @@ public class QuestionnaireTest {
     assertFalse(questionnaire == null);
     assertEquals(null, questionnaire.id);
     assertEquals(5, questionnaire.questions.size());
-    assertEquals(40, questionnaire.totalEstimatedTime);
-    assertEquals("Average", questionnaire.averageDifficulty);
+    assertEquals(60, questionnaire.totalEstimatedTime);
+    assertEquals(null, questionnaire.averageDifficulty);
   }
   
   /**

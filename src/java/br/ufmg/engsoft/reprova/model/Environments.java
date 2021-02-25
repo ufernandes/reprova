@@ -99,4 +99,9 @@ public class Environments {
 		return this.port;
 	}
 
+	//Used by tests ONLY
+	public static void reset() {
+		environments = null;
+	}
+
 }
