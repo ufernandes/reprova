@@ -17,12 +17,12 @@ public class Mongo {
   /**
    * Logger instance.
    */
-  protected static final Logger logger = LoggerFactory.getLogger(Mongo.class);
+  protected static final Logger LOGGER = LoggerFactory.getLogger(Mongo.class);
 
   /**
    * Full connection string, obtained from 'REPROVA_MONGO' environment variable.
    */
-  protected static final String endpoint = System.getenv("REPROVA_MONGO");
+  protected static final String ENDPOINT = System.getenv("REPROVA_MONGO");
 
   /**
    * The mongodb driver instance.
@@ -36,13 +36,13 @@ public class Mongo {
    * @param db  the database name.
    */
   public Mongo(String db) {
-	System.out.println(Mongo.endpoint);
+	System.out.println(Mongo.ENDPOINT);
 	  
     this.db = MongoClients
-      .create(Mongo.endpoint)
+      .create(Mongo.ENDPOINT)
       .getDatabase(db);
 
-    logger.info("connected to db '" + db + "'");
+    LOGGER.info("connected to db '" + db + "'");
   }
 
 
