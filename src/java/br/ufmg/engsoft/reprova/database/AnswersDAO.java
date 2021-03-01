@@ -95,23 +95,23 @@ public class AnswersDAO {
 
 
   /**
-   * Get the answer with the given id.
-   * @param id  the answer's id in the database.
+   * Get the answer with the given identifier.
+   * @param identifier  the answer's identifier in the database.
    * @return The answer, or null if no such question.
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public Answer get(String id) {
-    if (id == null) {
-      throw new IllegalArgumentException("id mustn't be null");
+  public Answer get(String identifier) {
+    if (identifier == null) {
+      throw new IllegalArgumentException("identifier mustn't be null");
     }
 
     var answer = this.collection
-      .find(eq(new ObjectId(id)))
+      .find(eq(new ObjectId(identifier)))
       .map(this::parseDoc)
       .first();
 
     if (answer == null) {
-      LOGGER.info("No such answer " + id);
+      LOGGER.info("No such answer " + identifier);
     }
 
     return answer;
@@ -153,7 +153,7 @@ public class AnswersDAO {
 
   /**
    * Adds or updates the given answer in the database.
-   * If the given answer has an id, update, otherwise add.
+   * If the given answer has an identifier, update, otherwise add.
    * @param answer  the answer to be stored
    * @param question the question for which the answer must be stored
    * @return Whether the answer was successfully added.
@@ -173,15 +173,15 @@ public class AnswersDAO {
       .append("pvt", answer.getPvt())
       .append("questionId", questionId);
 
-    String id = answer.getId();
-    if (id != null) {
+    String identifier = answer.getId();
+    if (identifier != null) {
       var result = this.collection.replaceOne(
-        eq(new ObjectId(id)),
+        eq(new ObjectId(identifier)),
         doc
       );
 
       if (!result.wasAcknowledged()) {
-        LOGGER.warn("Failed to replace answer " + id);
+        LOGGER.warn("Failed to replace answer " + identifier);
         return false;
       }
     }
@@ -196,24 +196,24 @@ public class AnswersDAO {
 
 
   /**
-   * Remove the answer with the given id from the collection.
-   * @param id  the answer id
+   * Remove the answer with the given identifier from the collection.
+   * @param identifier  the answer identifier
    * @return Whether the given question was removed.
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public boolean remove(String id) {
-    if (id == null) {
-      throw new IllegalArgumentException("id mustn't be null");
+  public boolean remove(String identifier) {
+    if (identifier == null) {
+      throw new IllegalArgumentException("identifier mustn't be null");
     }
 
     var result = this.collection.deleteOne(
-      eq(new ObjectId(id))
+      eq(new ObjectId(identifier))
     ).wasAcknowledged();
 
     if (result) {
-      LOGGER.info("Deleted answer " + id);
+      LOGGER.info("Deleted answer " + identifier);
     } else {
-      LOGGER.warn("Failed to delete answer " + id);
+      LOGGER.warn("Failed to delete answer " + identifier);
     }
 
     return result;
