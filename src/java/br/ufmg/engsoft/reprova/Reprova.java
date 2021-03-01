@@ -13,28 +13,28 @@ public class Reprova {
   public static void main(String[] args) {
     var json = new Json();
     
-    Mongo db;
+    Mongo mongoDB;
 
     try {
-    	db = new Mongo("reprova");
+    	mongoDB = new Mongo("reprova");
     } catch(Exception e) {
     	System.out.println(e);
     	return;
     }
 
-    var questionsDAO = new QuestionsDAO(db, json);    
+    var questionsDAO = new QuestionsDAO(mongoDB, json);    
 
     Setup.routes(json, questionsDAO);
     
     Environments envs = Environments.getInstance();
     
     if (envs.getEnableAnswers()) {
-        var answersDAO = new AnswersDAO(db, json);
+        var answersDAO = new AnswersDAO(mongoDB, json);
         Setup.answerRoutes(json, answersDAO);
     }
 
     if (envs.getEnableQuestionnaires()) {
-        var questionnairesDAO = new QuestionnairesDAO(db, json);
+        var questionnairesDAO = new QuestionnairesDAO(mongoDB, json);
         Setup.questionnaireRoutes(json, questionnairesDAO, questionsDAO);
     }
   }
