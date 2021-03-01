@@ -61,16 +61,16 @@ public class Answers extends ReprovaRoute {
 	  
 	  /**
        * Get endpoint: lists all answers for a given question, or a single answer 
-       * if an 'id' query parameter is provided.
+       * if an 'identifier' query parameter is provided.
        */
       protected Object getAllAnswers(Request request, Response response) {
         logger.info("Received answers get:");
 
-        String id = request.params(":questionId");
+        String identifier = request.params(":questionId");
         boolean auth = authorized(request.queryParams("token"));
         
         // TODO check how to use auth here
-        var answers = answersDAO.list(id, auth ? null : false);
+        var answers = answersDAO.list(identifier, auth ? null : false);
         
         logger.info("Done. Responding...");
         response.status(200);

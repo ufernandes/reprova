@@ -72,36 +72,36 @@ public class Questions extends ReprovaRoute {
   }
 
   /**
-   * Get endpoint: lists all questions, or a single question if a 'id' query parameter is
+   * Get endpoint: lists all questions, or a single question if a 'identifier' query parameter is
    * provided.
    */
   protected Object get(Request request, Response response) {
     logger.info("Received questions get:");
 
-    var id = request.queryParams("id");
+    var identifier = request.queryParams("identifier");
     var auth = authorized(request.queryParams("token"));
       
-    if (id == null) {
+    if (identifier == null) {
     	return this.get(request, response, auth);
     }
      
-    return this.get(request, response, id, auth);
+    return this.get(request, response, identifier, auth);
   }
 
   /**
-   * Get id endpoint: fetch the specified question from the database.
+   * Get identifier endpoint: fetch the specified question from the database.
    * If not authorised, and the given question is private, returns an error message.
    */
-  protected Object get(Request request, Response response, String id, boolean auth) {
-    if (id == null) {
-      throw new IllegalArgumentException("id mustn't be null");
+  protected Object get(Request request, Response response, String identifier, boolean auth) {
+    if (identifier == null) {
+      throw new IllegalArgumentException("identifier mustn't be null");
     }
 
     response.type("application/json");
 
-    logger.info("Fetching question " + id);
+    logger.info("Fetching question " + identifier);
 
-    var question = questionsDAO.get(id);
+    var question = questionsDAO.get(identifier);
 
     if (question == null) {
       logger.error("Invalid request!");
@@ -147,7 +147,7 @@ public class Questions extends ReprovaRoute {
   /**
    * Post endpoint: add or update a question in the database.
    * The question must be supplied in the request's body.
-   * If the question has an 'id' field, the operation is an update.
+   * If the question has an 'identifier' field, the operation is an update.
    * Otherwise, the given question is added as a new question in the database.
    * This endpoint is for authorized access only.
    */
@@ -196,7 +196,7 @@ public class Questions extends ReprovaRoute {
 
   /**
    * Delete endpoint: remove a question from the database.
-   * The question's id must be supplied through the 'id' query parameter.
+   * The question's identifier must be supplied through the 'identifier' query parameter.
    * This endpoint is for authorized access only.
    */
   protected Object delete(Request request, Response response) {
@@ -204,7 +204,7 @@ public class Questions extends ReprovaRoute {
 
     response.type("application/json");
 
-    var id = request.queryParams("id");
+    var identifier = request.queryParams("identifier");
     var token = request.queryParams("token");
 
     if (!authorized(token)) {
@@ -213,15 +213,15 @@ public class Questions extends ReprovaRoute {
       return unauthorized;
     }
 
-    if (id == null) {
+    if (identifier == null) {
       logger.error("Invalid request!");
       response.status(400);
       return invalid;
     }
 
-    logger.info("Deleting question " + id);
+    logger.info("Deleting question " + identifier);
 
-    var success = questionsDAO.remove(id);
+    var success = questionsDAO.remove(identifier);
 
     logger.info("Done. Responding...");
 
@@ -254,10 +254,10 @@ public class Questions extends ReprovaRoute {
     logger.info("Deleting all questions");
     ArrayList<Question> questions = new ArrayList<Question>(questionsDAO.list(null, null));
     for (Question question : questions){
-      String id = question.id;
-      logger.info("Deleting question " + id);
+      String identifier = question.identifier;
+      logger.info("Deleting question " + identifier);
       
-      success = questionsDAO.remove(id);
+      success = questionsDAO.remove(identifier);
       if (!success){
         break;
       }

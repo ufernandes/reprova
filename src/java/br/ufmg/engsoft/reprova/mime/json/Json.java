@@ -16,9 +16,9 @@ import br.ufmg.engsoft.reprova.model.Semester;
 
 
 /**
- * Json format for Reprova's types.
+ * JsonFormat format for Reprova's types.
  */
-public class Json {
+public class JsonFormat {
   /**
    * Deserializer for Semester.
    */
@@ -224,7 +224,7 @@ public class Json {
    * Instantiate the formatter for Reprova's types.
    * Currently, it supports only the Question type.
    */
-  public Json() {
+  public JsonFormat() {
     var parserBuilder = new GsonBuilder();
 
     parserBuilder.registerTypeAdapter(

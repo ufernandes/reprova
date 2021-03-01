@@ -19,8 +19,8 @@ public class Semester {
     _2(2);
 
     public final int value;
-    Reference(int i) {
-      this.value = i;
+    Reference(int iValue) {
+      this.value = iValue;
     }
 
     /**
@@ -35,8 +35,8 @@ public class Semester {
     /**
      * Convert a int to a Semester.Reference.
      */
-    public static Reference fromInt(int i) {
-      Reference ref = valueMap.get(Integer.valueOf(i));
+    public static Reference fromInt(int iValue) {
+      Reference ref = valueMap.get(Integer.valueOf(iValue));
 
       if (ref == null)
         throw new IllegalArgumentException();

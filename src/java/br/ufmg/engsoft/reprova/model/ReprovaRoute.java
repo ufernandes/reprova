@@ -12,7 +12,7 @@ public abstract class ReprovaRoute {
      */
     protected static final String unauthorized = "\"Unauthorized\"";
     protected static final String invalid = "\"Invalid request\"";
-    protected static final String ok = "\"Ok\"";
+    protected static final String okStatus = "\"Ok\"";
     
     /**
      * Check if the given token is authorized.
