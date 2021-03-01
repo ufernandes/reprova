@@ -29,7 +29,7 @@ public class AnswersDAO {
   /**
    * Logger instance.
    */
-  protected static final Logger logger = LoggerFactory.getLogger(AnswersDAO.class);
+  protected static final Logger LOGGER = LoggerFactory.getLogger(AnswersDAO.class);
 
   /**
    * Json formatter.
@@ -76,19 +76,19 @@ public class AnswersDAO {
 
     var doc = document.toJson();
 
-    logger.info("Fetched answer: " + doc);
+    LOGGER.info("Fetched answer: " + doc);
 
     try {
       var answer = json
         .parse(doc, Answer.Builder.class)
         .build();
 
-      logger.info("Parsed answer: " + answer);
+      LOGGER.info("Parsed answer: " + answer);
 
       return answer;
     }
     catch (Exception e) {
-      logger.error("Invalid document in database!", e);
+      LOGGER.error("Invalid document in database!", e);
       throw new IllegalArgumentException(e);
     }
   }
@@ -111,7 +111,7 @@ public class AnswersDAO {
       .first();
 
     if (answer == null) {
-      logger.info("No such answer " + id);
+      LOGGER.info("No such answer " + id);
     }
 
     return answer;
@@ -181,7 +181,7 @@ public class AnswersDAO {
       );
 
       if (!result.wasAcknowledged()) {
-        logger.warn("Failed to replace answer " + id);
+        LOGGER.warn("Failed to replace answer " + id);
         return false;
       }
     }
@@ -189,7 +189,7 @@ public class AnswersDAO {
       this.collection.insertOne(doc);
     }
 
-    logger.info("Stored answer " + doc.get("_id"));
+    LOGGER.info("Stored answer " + doc.get("_id"));
 
     return true;
   }
@@ -211,9 +211,9 @@ public class AnswersDAO {
     ).wasAcknowledged();
 
     if (result) {
-      logger.info("Deleted answer " + id);
+      LOGGER.info("Deleted answer " + id);
     } else {
-      logger.warn("Failed to delete answer " + id);
+      LOGGER.warn("Failed to delete answer " + id);
     }
 
     return result;
