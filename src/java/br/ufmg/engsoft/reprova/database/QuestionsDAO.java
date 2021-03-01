@@ -45,12 +45,12 @@ public class QuestionsDAO {
     /**
      * Basic constructor.
      *
-     * @param db   the database, mustn't be null
+     * @param mongoDB   the database, mustn't be null
      * @param json the json formatter for the database's documents, mustn't be null
      * @throws IllegalArgumentException if any parameter is null
      */
-    public QuestionsDAO(Mongo db, Json json) {
-        if (db == null) {
+    public QuestionsDAO(Mongo mongoDB, Json json) {
+        if (mongoDB == null) {
             throw new IllegalArgumentException("db mustn't be null");
         }
 
@@ -58,7 +58,7 @@ public class QuestionsDAO {
             throw new IllegalArgumentException("json mustn't be null");
         }
 
-        this.collection = db.getCollection("questions");
+        this.collection = mongoDB.getCollection("questions");
 
         this.json = json;
     }
@@ -90,21 +90,21 @@ public class QuestionsDAO {
     }
 
     /**
-     * Get the question with the given id.
+     * Get the question with the given identifier.
      *
-     * @param id the question's id in the database.
+     * @param identifier the question's identifier in the database.
      * @return The question, or null if no such question.
      * @throws IllegalArgumentException if any parameter is null
      */
-    public Question get(String id) {
-        if (id == null) {
-            throw new IllegalArgumentException("id mustn't be null");
+    public Question get(String identifier) {
+        if (identifier == null) {
+            throw new IllegalArgumentException("identifier mustn't be null");
         }
 
-        var question = this.collection.find(eq(new ObjectId(id))).map(this::parseDoc).first();
+        var question = this.collection.find(eq(new ObjectId(identifier))).map(this::parseDoc).first();
 
         if (question == null) {
-            LOGGER.info("No such question " + id);
+            LOGGER.info("No such question " + identifier);
         }
 
         return question;
@@ -144,7 +144,7 @@ public class QuestionsDAO {
 
     /**
      * Adds or updates the given question in the database. If the given question has
-     * an id, update, otherwise add.
+     * an identifier, update, otherwise add.
      *
      * @param question the question to be stored
      * @return Whether the question was successfully added.
@@ -185,12 +185,12 @@ public class QuestionsDAO {
             doc = doc.append("statistics", question.getStatistics());
         }
 
-        var id = question.id;
-        if (id != null) {
-            var result = this.collection.replaceOne(eq(new ObjectId(id)), doc);
+        var identifier = question.identifier;
+        if (identifier != null) {
+            var result = this.collection.replaceOne(eq(new ObjectId(identifier)), doc);
 
             if (!result.wasAcknowledged()) {
-                LOGGER.warn("Failed to replace question " + id);
+                LOGGER.warn("Failed to replace question " + identifier);
                 return false;
             }
         } else {
@@ -203,22 +203,22 @@ public class QuestionsDAO {
     }
 
     /**
-     * Remove the question with the given id from the collection.
+     * Remove the question with the given identifier from the collection.
      *
-     * @param id the question id
+     * @param identifier the question identifier
      * @return Whether the given question was removed.
      * @throws IllegalArgumentException if any parameter is null
      */
-    public boolean remove(String id) {
-        if (id == null)
-            throw new IllegalArgumentException("id mustn't be null");
+    public boolean remove(String identifier) {
+        if (identifier == null)
+            throw new IllegalArgumentException("identifier mustn't be null");
 
-        var result = this.collection.deleteOne(eq(new ObjectId(id))).wasAcknowledged();
+        var result = this.collection.deleteOne(eq(new ObjectId(identifier))).wasAcknowledged();
 
         if (result) {
-            LOGGER.info("Deleted question " + id);
+            LOGGER.info("Deleted question " + identifier);
         } else {
-            LOGGER.warn("Failed to delete question " + id);
+            LOGGER.warn("Failed to delete question " + identifier);
         }
 
         return result;

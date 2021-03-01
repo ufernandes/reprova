@@ -27,22 +27,22 @@ public class Mongo {
   /**
    * The mongodb driver instance.
    */
-  protected final MongoDatabase db;
+  protected final MongoDatabase mongoDB;
 
 
 
   /**
    * Instantiate for access in the given database.
-   * @param db  the database name.
+   * @param mongoDB  the database name.
    */
-  public Mongo(String db) {
+  public Mongo(String mongoDB) {
 	System.out.println(Mongo.ENDPOINT);
 	  
-    this.db = MongoClients
+    this.mongoDB = MongoClients
       .create(Mongo.ENDPOINT)
-      .getDatabase(db);
+      .getDatabase(mongoDB);
 
-    LOGGER.info("connected to db '" + db + "'");
+    LOGGER.info("connected to db '" + mongoDB + "'");
   }
 
 
@@ -50,6 +50,6 @@ public class Mongo {
    * Gets the given collection in the database.
    */
   public MongoCollection<Document> getCollection(String name) {
-    return db.getCollection(name);
+    return mongoDB.getCollection(name);
   }
 }

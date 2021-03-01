@@ -42,18 +42,18 @@ public class QuestionnairesDAO {
 
   /**
    * Basic constructor.
-   * @param db    the database, mustn't be null
+   * @param mongoDB    the database, mustn't be null
    * @param json  the json formatter for the database's documents, mustn't be null
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public QuestionnairesDAO(Mongo db, Json json) {
-    if (db == null)
+  public QuestionnairesDAO(Mongo mongoDB, Json json) {
+    if (mongoDB == null)
       throw new IllegalArgumentException("db mustn't be null");
 
     if (json == null)
       throw new IllegalArgumentException("json mustn't be null");
 
-    this.collection = db.getCollection("questionnaires");
+    this.collection = mongoDB.getCollection("questionnaires");
 
     this.json = json;
   }
@@ -91,22 +91,22 @@ public class QuestionnairesDAO {
 
 
   /**
-   * Get the questionnaire with the given id.
-   * @param id  the questionnaire's id in the database.
+   * Get the questionnaire with the given identifier.
+   * @param identifier  the questionnaire's identifier in the database.
    * @return The questionnaire, or null if no such questionnaire.
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public Questionnaire get(String id) {
-    if (id == null)
-      throw new IllegalArgumentException("id mustn't be null");
+  public Questionnaire get(String identifier) {
+    if (identifier == null)
+      throw new IllegalArgumentException("identifier mustn't be null");
 
     var questionnaire = this.collection
-      .find(eq(new ObjectId(id)))
+      .find(eq(new ObjectId(identifier)))
       .map(this::parseDoc)
       .first();
 
     if (questionnaire == null)
-      LOGGER.info("No such questionnaire " + id);
+      LOGGER.info("No such questionnaire " + identifier);
 
     return questionnaire;
   }
@@ -132,7 +132,7 @@ public class QuestionnairesDAO {
 
   /**
    * Adds or updates the given questionnaire in the database.
-   * If the given questionnaire has an id, update, otherwise add.
+   * If the given questionnaire has an identifier, update, otherwise add.
    * @param questionnaire  the questionnaire to be stored
    * @return Whether the questionnaire was successfully added.
    * @throws IllegalArgumentException  if any parameter is null
@@ -187,15 +187,15 @@ public class QuestionnairesDAO {
       doc = doc.append("totalEstimatedTime", questionnaire.totalEstimatedTime);
     }
     
-    var id = questionnaire.id;
-    if (id != null) {
+    var identifier = questionnaire.identifier;
+    if (identifier != null) {
       var result = this.collection.replaceOne(
-        eq(new ObjectId(id)),
+        eq(new ObjectId(identifier)),
         doc
       );
 
       if (!result.wasAcknowledged()) {
-        LOGGER.warn("Failed to replace questionnaire " + id);
+        LOGGER.warn("Failed to replace questionnaire " + identifier);
         return false;
       }
     }
@@ -209,23 +209,23 @@ public class QuestionnairesDAO {
 
 
   /**
-   * Remove the questionnaire with the given id from the collection.
-   * @param id  the questionnaire id
+   * Remove the questionnaire with the given identifier from the collection.
+   * @param identifier  the questionnaire identifier
    * @return Whether the given questionnaire was removed.
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public boolean remove(String id) {
-    if (id == null)
-      throw new IllegalArgumentException("id mustn't be null");
+  public boolean remove(String identifier) {
+    if (identifier == null)
+      throw new IllegalArgumentException("identifier mustn't be null");
 
     var result = this.collection.deleteOne(
-      eq(new ObjectId(id))
+      eq(new ObjectId(identifier))
     ).wasAcknowledged();
 
     if (result)
-      LOGGER.info("Deleted questionnaire " + id);
+      LOGGER.info("Deleted questionnaire " + identifier);
     else
-      LOGGER.warn("Failed to delete questionnaire " + id);
+      LOGGER.warn("Failed to delete questionnaire " + identifier);
 
     return result;
   }
