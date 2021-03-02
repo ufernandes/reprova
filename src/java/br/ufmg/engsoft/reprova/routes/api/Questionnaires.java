@@ -170,7 +170,7 @@ public class Questionnaires {
    *
    */
   private Question buildQuestion(Question question){
-    if (Environments.getInstance().getEnableEstimatedTime()){
+    if (Environments.getInstance().isEnEstmtdTime()){
       return new Question.Builder()
                     .theme(question.theme)
                     .description(question.description)

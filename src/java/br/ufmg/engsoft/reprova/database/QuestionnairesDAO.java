@@ -169,11 +169,11 @@ public class QuestionnairesDAO {
           .append("record", record == null ? null : new Document(record))
           .append("pvt", question.pvt);
       
-      if (Environments.getInstance().getEnableEstimatedTime()){
+      if (Environments.getInstance().isEnEstmtdTime()){
         doc = doc.append("estimatedTime", question.estimatedTime);
       }
       
-      if (Environments.getInstance().getenMpleChoice()){
+      if (Environments.getInstance().isEnMpleChoice()){
         doc = doc.append("choices", question.getChoices());
       }
 
@@ -188,7 +188,7 @@ public class QuestionnairesDAO {
         .append("avrgdiffclty", questionnaire.avrgdiffclty)
         .append("questions", questions);
 
-    if (Environments.getInstance().getEnableEstimatedTime()){
+    if (Environments.getInstance().isEnEstmtdTime()){
       doc = doc.append("totEstmtdTime", questionnaire.totEstmtdTime);
     }
     

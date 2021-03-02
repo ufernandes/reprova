@@ -38,7 +38,7 @@ public class Answer {
 		return this.attachment;
 	}
 	
-	public boolean getPvt() {
+	public boolean isPvt() {
 	    return this.isPrivate;
 	}
 	

@@ -169,13 +169,13 @@ public class Question {
     	  this.statistics = new HashMap<String, Double>();
       }
 
-      if (!Environments.getInstance().getEnableEstimatedTime()){
+      if (!Environments.getInstance().isEnEstmtdTime()){
         this.estimatedTime = null;
       } else {
         this.estimatedTime = estimatedTime;
       }
       
-      if (!Environments.getInstance().getenMpleChoice()){
+      if (!Environments.getInstance().isEnMpleChoice()){
         this.choices = null;
       } else {
         this.choices = choices;

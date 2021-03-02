@@ -28,12 +28,12 @@ public class Reprova {
     
     Environments envs = Environments.getInstance();
     
-    if (envs.getEnableAnswers()) {
+    if (envs.isEnableAnswrsPvt()) {
         var answersDAO = new AnswersDAO(mongoDB, json);
         Setup.answerRoutes(json, answersDAO);
     }
 
-    if (envs.getEnableQuestionnaires()) {
+    if (envs.isEnableQuestnnrs()) {
         var questionnairesDAO = new QuestionnairesDAO(mongoDB, json);
         Setup.questionnaireRoutes(json, questionnairesDAO, questionsDAO);
     }

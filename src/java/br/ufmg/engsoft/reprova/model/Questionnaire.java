@@ -61,7 +61,7 @@ public class Questionnaire{
       QuestionnaireGeneration generationChain = new QuestionnaireGeneration();
 
       Environments environments = Environments.getInstance();
-      boolean hasEstimatedTime = environments.getEnableEstimatedTime();
+      boolean hasEstimatedTime = environments.isEnEstmtdTime();
 
       if (hasEstimatedTime){
         generationChain.setNext(new EstimatedTimeCalculator());

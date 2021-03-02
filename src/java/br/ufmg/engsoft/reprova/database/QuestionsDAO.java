@@ -170,7 +170,7 @@ public class QuestionsDAO {
                 .append("record", record == null ? null : new Document(record))
                 .append("pvt", question.pvt);
 
-        if (Environments.getInstance().getEnableEstimatedTime()){
+        if (Environments.getInstance().isEnEstmtdTime()){
             doc = doc.append("estimatedTime", question.estimatedTime);
         }
 
@@ -178,7 +178,7 @@ public class QuestionsDAO {
             doc = doc.append("diffclty", question.diffclty);
         }
         
-        if (Environments.getInstance().getenMpleChoice()) {
+        if (Environments.getInstance().isEnMpleChoice()) {
             doc = doc.append("choices", question.getChoices());
         }
         if (Environments.getInstance().getenQuestStats()) {
