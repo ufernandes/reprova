@@ -7,13 +7,13 @@ import br.ufmg.engsoft.reprova.database.QuestionsDAO;
 public class QuestionnaireGeneration extends ChainQuestionnaireGeneration {
   public QuestionnaireGeneration(){
     Environments environments = Environments.getInstance();
-    int valueDifficultyGroup = environments.getDifficultyGroup();
+    int valdiffcltyGroup = environments.getdiffcltyGroup();
 
-    this.generator = new GeneratorFactory().getGenerator(valueDifficultyGroup);
+    this.generator = new GeneratorFactory().getGenerator(valdiffcltyGroup);
   }
   
-  public Questionnaire generate(QuestionsDAO questionsDAO, String averageDifficulty, int questionsCount, int totalEstimatedTime){
-    Questionnaire questionnaire = this.generator.generate(questionsDAO, averageDifficulty, questionsCount, totalEstimatedTime);
+  public Questionnaire generate(QuestionsDAO questionsDAO, String avrgdiffclty, int questionsCount, int totEstmtdTime){
+    Questionnaire questionnaire = this.generator.generate(questionsDAO, avrgdiffclty, questionsCount, totEstmtdTime);
     return handleGeneration(questionnaire);
   }
 }

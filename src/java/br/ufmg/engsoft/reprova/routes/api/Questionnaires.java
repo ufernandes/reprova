@@ -35,7 +35,7 @@ public class Questionnaires {
    */
   protected static final String unauthorized = "\"Unauthorized\"";
   protected static final String invalid = "\"Invalid request\"";
-  protected static final String ok = "\"Ok\"";
+  protected static final String okStatus = "\"Ok\"";
 
   /**
    * Json formatter.
@@ -103,36 +103,36 @@ public class Questionnaires {
   }
 
   /**
-   * Get endpoint: lists all questionnaires, or a single questionnaire if a 'id' query parameter is
+   * Get endpoint: lists all questionnaires, or a single questionnaire if a 'identifier' query parameter is
    * provided.
    */
   protected Object get(Request request, Response response) {
     logger.info("Received questionnaires get:");
 
-    var id = request.queryParams("id");
+    var identifier = request.queryParams("identifier");
     var auth = authorized(request.queryParams("token"));
       
-    if (id == null) {
+    if (identifier == null) {
     	return this.get(request, response, auth);
     }
      
-    return this.get(request, response, id, auth);
+    return this.get(request, response, identifier, auth);
   }
 
   /**
-   * Get id endpoint: fetch the specified questionnaire from the database.
+   * Get identifier endpoint: fetch the specified questionnaire from the database.
    * If not authorised, and the given questionnaire is private, returns an error message.
    */
-  protected Object get(Request request, Response response, String id, boolean auth) {
-    if (id == null) {
-      throw new IllegalArgumentException("id mustn't be null");
+  protected Object get(Request request, Response response, String identifier, boolean auth) {
+    if (identifier == null) {
+      throw new IllegalArgumentException("identifier mustn't be null");
     }
 
     response.type("application/json");
 
-    logger.info("Fetching questionnaire " + id);
+    logger.info("Fetching questionnaire " + identifier);
 
-    var questionnaire = questionnairesDAO.get(id);
+    var questionnaire = questionnairesDAO.get(identifier);
 
     if (questionnaire == null) {
       logger.error("Invalid request!");
@@ -170,7 +170,7 @@ public class Questionnaires {
    *
    */
   private Question buildQuestion(Question question){
-    if (Environments.getInstance().getEnableEstimatedTime()){
+    if (Environments.getInstance().isEnEstmtdTime()){
       return new Question.Builder()
                     .theme(question.theme)
                     .description(question.description)
@@ -194,7 +194,7 @@ public class Questionnaires {
   /**
    * Post endpoint: add or update a questionnaire in the database.
    * The questionnaire must be supplied in the request's body.
-   * If the questionnaire has an 'id' field, the operation is an update.
+   * If the questionnaire has an 'identifier' field, the operation is an update.
    * Otherwise, the given questionnaire is added as a new questionnaire in the database.
    * This endpoint is for authorized access only.
    */
@@ -246,13 +246,13 @@ public class Questionnaires {
 
     logger.info("Done. Responding...");
 
-    return ok;
+    return okStatus;
   }
 
   /**
    * Generate endpoint: create a questionnaire in the database.
    * The parameters for the questionnaire's generation must be supplied in the request's body.
-   * Such parameters must include the averageDifficulty and may include totalEstimatedTime.
+   * Such parameters must include the avrgdiffclty and may include totEstmtdTime.
    * This endpoint is for authorized access only.
    */
   protected Object generate(Request request, Response response){
@@ -296,13 +296,13 @@ public class Questionnaires {
 
     logger.info("Done. Responding...");
 
-    return ok;
+    return okStatus;
   }
 
 
   /**
    * Delete endpoint: remove a questionnaire from the database.
-   * The questionnaire's id must be supplied through the 'id' query parameter.
+   * The questionnaire's identifier must be supplied through the 'identifier' query parameter.
    * This endpoint is for authorized access only.
    */
   protected Object delete(Request request, Response response) {
@@ -310,7 +310,7 @@ public class Questionnaires {
 
     response.type("application/json");
 
-    var id = request.queryParams("id");
+    var identifier = request.queryParams("identifier");
     var token = request.queryParams("token");
 
     if (!authorized(token)) {
@@ -319,15 +319,15 @@ public class Questionnaires {
       return unauthorized;
     }
 
-    if (id == null) {
+    if (identifier == null) {
       logger.error("Invalid request!");
       response.status(400);
       return invalid;
     }
 
-    logger.info("Deleting questionnaire " + id);
+    logger.info("Deleting questionnaire " + identifier);
 
-    var success = questionnairesDAO.remove(id);
+    var success = questionnairesDAO.remove(identifier);
 
     logger.info("Done. Responding...");
 
@@ -336,7 +336,7 @@ public class Questionnaires {
               : 400
     );
 
-    return ok;
+    return okStatus;
   }
 
   /**
@@ -361,10 +361,10 @@ public class Questionnaires {
     boolean success = false;
     ArrayList<Questionnaire> questionnaires = new ArrayList<Questionnaire>(questionnairesDAO.list());
     for (Questionnaire questionnaire : questionnaires){
-      String id = questionnaire.id;
-      logger.info("Deleting questionnaire " + id);
+      String identifier = questionnaire.identifier;
+      logger.info("Deleting questionnaire " + identifier);
       
-      success = questionnairesDAO.remove(id);
+      success = questionnairesDAO.remove(identifier);
       if (!success){
         break;
       }
@@ -377,6 +377,6 @@ public class Questionnaires {
               : 400
     );
 
-    return ok;
+    return okStatus;
   }
 }

@@ -16,9 +16,9 @@ import br.ufmg.engsoft.reprova.model.Semester;
 
 
 /**
- * Json format for Reprova's types.
+ * JsonFormat format for Reprova's types.
  */
-public class Json {
+public class JsonFormat {
   /**
    * Deserializer for Semester.
    */
@@ -149,7 +149,7 @@ public class Json {
         new SemesterDeserializer()
       );
 
-      var questionnaireBuilder = parserBuilder
+      var questnnBuilder = parserBuilder
         .create()
         .fromJson(
           json.getAsJsonObject(),
@@ -159,14 +159,16 @@ public class Json {
       // Mongo's id property doesn't match Questionnaire.id:
       var _id = json.getAsJsonObject().get("_id");
 
-      if (_id != null)
-        questionnaireBuilder.id(
+      if (_id != null){
+
+        questnnBuilder.id(
           _id.getAsJsonObject()
             .get("$oid")
             .getAsString()
         );
+      }
 
-      return questionnaireBuilder;
+      return questnnBuilder;
     }
   }
 
@@ -194,7 +196,7 @@ public class Json {
         new SemesterDeserializer()
       );
 
-      var questionnaireGenerator = parserBuilder
+      var questnnGenerator = parserBuilder
         .create()
         .fromJson(
           json.getAsJsonObject(),
@@ -204,14 +206,15 @@ public class Json {
       // Mongo's id property doesn't match Questionnaire.id:
       var _id = json.getAsJsonObject().get("_id");
 
-      if (_id != null)
-        questionnaireGenerator.id(
+      if (_id != null){
+        questnnGenerator.id(
           _id.getAsJsonObject()
             .get("$oid")
             .getAsString()
         );
+      }
 
-      return questionnaireGenerator;
+      return questnnGenerator;
     }
   }
 
@@ -224,7 +227,7 @@ public class Json {
    * Instantiate the formatter for Reprova's types.
    * Currently, it supports only the Question type.
    */
-  public Json() {
+  public JsonFormat() {
     var parserBuilder = new GsonBuilder();
 
     parserBuilder.registerTypeAdapter(

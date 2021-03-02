@@ -27,7 +27,7 @@ public class QuestionnairesDAO {
   /**
    * Logger instance.
    */
-  protected static final Logger logger = LoggerFactory.getLogger(QuestionnairesDAO.class);
+  protected static final Logger LOGGER = LoggerFactory.getLogger(QuestionnairesDAO.class);
 
   /**
    * Json formatter.
@@ -42,18 +42,20 @@ public class QuestionnairesDAO {
 
   /**
    * Basic constructor.
-   * @param db    the database, mustn't be null
+   * @param mongoDB    the database, mustn't be null
    * @param json  the json formatter for the database's documents, mustn't be null
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public QuestionnairesDAO(Mongo db, Json json) {
-    if (db == null)
+  public QuestionnairesDAO(Mongo mongoDB, Json json) {
+    if (mongoDB == null){
       throw new IllegalArgumentException("db mustn't be null");
+    }
 
-    if (json == null)
+    if (json == null){
       throw new IllegalArgumentException("json mustn't be null");
+    }
 
-    this.collection = db.getCollection("questionnaires");
+    this.collection = mongoDB.getCollection("questionnaires");
 
     this.json = json;
   }
@@ -67,46 +69,49 @@ public class QuestionnairesDAO {
    * @throws IllegalArgumentException  if the given document is an invalid Questionnaire
    */
   protected Questionnaire parseDoc(Document document) {
-    if (document == null)
+    if (document == null){
       throw new IllegalArgumentException("document mustn't be null");
+    }
 
     var doc = document.toJson();
 
-    logger.info("Fetched questionnaire: " + doc);
+    LOGGER.info("Fetched questionnaire: " + doc);
 
     try {
       var questionnaire = json
         .parse(doc, Questionnaire.Builder.class)
         .build();
 
-      logger.info("Parsed questionnaire: " + questionnaire);
+      LOGGER.info("Parsed questionnaire: " + questionnaire);
 
       return questionnaire;
     }
     catch (Exception e) {
-      logger.error("Invalid document in database!", e);
+      LOGGER.error("Invalid document in database!", e);
       throw new IllegalArgumentException(e);
     }
   }
 
 
   /**
-   * Get the questionnaire with the given id.
-   * @param id  the questionnaire's id in the database.
+   * Get the questionnaire with the given identifier.
+   * @param identifier  the questionnaire's identifier in the database.
    * @return The questionnaire, or null if no such questionnaire.
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public Questionnaire get(String id) {
-    if (id == null)
-      throw new IllegalArgumentException("id mustn't be null");
+  public Questionnaire get(String identifier) {
+    if (identifier == null){
+      throw new IllegalArgumentException("identifier mustn't be null");
+    }
 
     var questionnaire = this.collection
-      .find(eq(new ObjectId(id)))
+      .find(eq(new ObjectId(identifier)))
       .map(this::parseDoc)
       .first();
 
-    if (questionnaire == null)
-      logger.info("No such questionnaire " + id);
+    if (questionnaire == null){
+      LOGGER.info("No such questionnaire " + identifier);
+    }
 
     return questionnaire;
   }
@@ -132,7 +137,7 @@ public class QuestionnairesDAO {
 
   /**
    * Adds or updates the given questionnaire in the database.
-   * If the given questionnaire has an id, update, otherwise add.
+   * If the given questionnaire has an identifier, update, otherwise add.
    * @param questionnaire  the questionnaire to be stored
    * @return Whether the questionnaire was successfully added.
    * @throws IllegalArgumentException  if any parameter is null
@@ -164,68 +169,72 @@ public class QuestionnairesDAO {
           .append("record", record == null ? null : new Document(record))
           .append("pvt", question.pvt);
       
-      if (Environments.getInstance().getEnableEstimatedTime()){
+      if (Environments.getInstance().isEnEstmtdTime()){
         doc = doc.append("estimatedTime", question.estimatedTime);
       }
       
-      if (Environments.getInstance().getEnableMultipleChoice()){
+      if (Environments.getInstance().isEnMpleChoice()){
         doc = doc.append("choices", question.getChoices());
       }
 
-      if (Environments.getInstance().getDifficultyGroup() != 0){
-        doc = doc.append("difficulty", question.difficulty);
+      if (Environments.getInstance().getdiffcltyGroup() != 0){
+        doc = doc.append("diffclty", question.diffclty);
       }
       
       questions.add(doc);
     }
 
     Document doc = new Document()
-        .append("averageDifficulty", questionnaire.averageDifficulty)
+        .append("avrgdiffclty", questionnaire.avrgdiffclty)
         .append("questions", questions);
 
-    if (Environments.getInstance().getEnableEstimatedTime()){
-      doc = doc.append("totalEstimatedTime", questionnaire.totalEstimatedTime);
+    if (Environments.getInstance().isEnEstmtdTime()){
+      doc = doc.append("totEstmtdTime", questionnaire.totEstmtdTime);
     }
     
-    var id = questionnaire.id;
-    if (id != null) {
+    var identifier = questionnaire.identifier;
+    if (identifier != null) {
       var result = this.collection.replaceOne(
-        eq(new ObjectId(id)),
+        eq(new ObjectId(identifier)),
         doc
       );
 
       if (!result.wasAcknowledged()) {
-        logger.warn("Failed to replace questionnaire " + id);
+        LOGGER.warn("Failed to replace questionnaire " + identifier);
         return false;
       }
     }
-    else
+    else{
       this.collection.insertOne(doc);
+    }
 
-    logger.info("Stored questionnaire " + doc.get("_id"));
+    LOGGER.info("Stored questionnaire " + doc.get("_id"));
 
     return true;
   }
 
 
   /**
-   * Remove the questionnaire with the given id from the collection.
-   * @param id  the questionnaire id
+   * Remove the questionnaire with the given identifier from the collection.
+   * @param identifier  the questionnaire identifier
    * @return Whether the given questionnaire was removed.
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public boolean remove(String id) {
-    if (id == null)
-      throw new IllegalArgumentException("id mustn't be null");
+  public boolean remove(String identifier) {
+    if (identifier == null){
+      throw new IllegalArgumentException("identifier mustn't be null");
+    }
 
     var result = this.collection.deleteOne(
-      eq(new ObjectId(id))
+      eq(new ObjectId(identifier))
     ).wasAcknowledged();
 
-    if (result)
-      logger.info("Deleted questionnaire " + id);
-    else
-      logger.warn("Failed to delete questionnaire " + id);
+    if (result){
+      LOGGER.info("Deleted questionnaire " + identifier);
+    }
+    else{
+      LOGGER.warn("Failed to delete questionnaire " + identifier);
+    }
 
     return result;
   }

@@ -8,7 +8,6 @@ import static com.mongodb.client.model.Projections.fields;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -31,7 +30,7 @@ public class QuestionsDAO {
     /**
      * Logger instance.
      */
-    protected static final Logger logger = LoggerFactory.getLogger(QuestionsDAO.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(QuestionsDAO.class);
 
     /**
      * Json formatter.
@@ -46,12 +45,12 @@ public class QuestionsDAO {
     /**
      * Basic constructor.
      *
-     * @param db   the database, mustn't be null
+     * @param mongoDB   the database, mustn't be null
      * @param json the json formatter for the database's documents, mustn't be null
      * @throws IllegalArgumentException if any parameter is null
      */
-    public QuestionsDAO(Mongo db, Json json) {
-        if (db == null) {
+    public QuestionsDAO(Mongo mongoDB, Json json) {
+        if (mongoDB == null) {
             throw new IllegalArgumentException("db mustn't be null");
         }
 
@@ -59,7 +58,7 @@ public class QuestionsDAO {
             throw new IllegalArgumentException("json mustn't be null");
         }
 
-        this.collection = db.getCollection("questions");
+        this.collection = mongoDB.getCollection("questions");
 
         this.json = json;
     }
@@ -78,34 +77,34 @@ public class QuestionsDAO {
 
         var doc = document.toJson();
 
-        logger.info("Fetched question: " + doc);
+        LOGGER.info("Fetched question: " + doc);
 
         try {
             var question = json.parse(doc, Question.Builder.class).build();
 
             return question;
         } catch (Exception e) {
-            logger.error("Invalid document in database!", e);
+            LOGGER.error("Invalid document in database!", e);
             throw new IllegalArgumentException(e);
         }
     }
 
     /**
-     * Get the question with the given id.
+     * Get the question with the given identifier.
      *
-     * @param id the question's id in the database.
+     * @param identifier the question's identifier in the database.
      * @return The question, or null if no such question.
      * @throws IllegalArgumentException if any parameter is null
      */
-    public Question get(String id) {
-        if (id == null) {
-            throw new IllegalArgumentException("id mustn't be null");
+    public Question get(String identifier) {
+        if (identifier == null) {
+            throw new IllegalArgumentException("identifier mustn't be null");
         }
 
-        var question = this.collection.find(eq(new ObjectId(id))).map(this::parseDoc).first();
+        var question = this.collection.find(eq(new ObjectId(identifier))).map(this::parseDoc).first();
 
         if (question == null) {
-            logger.info("No such question " + id);
+            LOGGER.info("No such question " + identifier);
         }
 
         return question;
@@ -134,7 +133,7 @@ public class QuestionsDAO {
 
         doc.projection(fields(exclude("statement"))).map(this::parseDoc).into(result);
         
-        if(Environments.getInstance().getEnableQuestionStatistics()){
+        if(Environments.getInstance().getenQuestStats()){
             for (var question : result){
                 question.getStatistics();
             }
@@ -145,7 +144,7 @@ public class QuestionsDAO {
 
     /**
      * Adds or updates the given question in the database. If the given question has
-     * an id, update, otherwise add.
+     * an identifier, update, otherwise add.
      *
      * @param question the question to be stored
      * @return Whether the question was successfully added.
@@ -156,7 +155,7 @@ public class QuestionsDAO {
             throw new IllegalArgumentException("question mustn't be null");
         }
 
-        question.calculateDifficulty();
+        question.calculatediffclty();
         Map<String, Object> record = null;
         if (question.record != null) {
             record = question.record // Convert the keys to string,
@@ -171,55 +170,56 @@ public class QuestionsDAO {
                 .append("record", record == null ? null : new Document(record))
                 .append("pvt", question.pvt);
 
-        if (Environments.getInstance().getEnableEstimatedTime()){
+        if (Environments.getInstance().isEnEstmtdTime()){
             doc = doc.append("estimatedTime", question.estimatedTime);
         }
 
-        if (Environments.getInstance().getDifficultyGroup() != 0){
-            doc = doc.append("difficulty", question.difficulty);
+        if (Environments.getInstance().getdiffcltyGroup() != 0){
+            doc = doc.append("diffclty", question.diffclty);
         }
         
-        if (Environments.getInstance().getEnableMultipleChoice()) {
+        if (Environments.getInstance().isEnMpleChoice()) {
             doc = doc.append("choices", question.getChoices());
         }
-        if (Environments.getInstance().getEnableQuestionStatistics()) {
+        if (Environments.getInstance().getenQuestStats()) {
             doc = doc.append("statistics", question.getStatistics());
         }
 
-        var id = question.id;
-        if (id != null) {
-            var result = this.collection.replaceOne(eq(new ObjectId(id)), doc);
+        var identifier = question.identifier;
+        if (identifier != null) {
+            var result = this.collection.replaceOne(eq(new ObjectId(identifier)), doc);
 
             if (!result.wasAcknowledged()) {
-                logger.warn("Failed to replace question " + id);
+                LOGGER.warn("Failed to replace question " + identifier);
                 return false;
             }
         } else {
             this.collection.insertOne(doc);
         }
 
-        logger.info("Stored question " + doc.get("_id"));
+        LOGGER.info("Stored question " + doc.get("_id"));
 
         return true;
     }
 
     /**
-     * Remove the question with the given id from the collection.
+     * Remove the question with the given identifier from the collection.
      *
-     * @param id the question id
+     * @param identifier the question identifier
      * @return Whether the given question was removed.
      * @throws IllegalArgumentException if any parameter is null
      */
-    public boolean remove(String id) {
-        if (id == null)
-            throw new IllegalArgumentException("id mustn't be null");
+    public boolean remove(String identifier) {
+        if (identifier == null){
+            throw new IllegalArgumentException("identifier mustn't be null");
+        }
 
-        var result = this.collection.deleteOne(eq(new ObjectId(id))).wasAcknowledged();
+        var result = this.collection.deleteOne(eq(new ObjectId(identifier))).wasAcknowledged();
 
         if (result) {
-            logger.info("Deleted question " + id);
+            LOGGER.info("Deleted question " + identifier);
         } else {
-            logger.warn("Failed to delete question " + id);
+            LOGGER.warn("Failed to delete question " + identifier);
         }
 
         return result;

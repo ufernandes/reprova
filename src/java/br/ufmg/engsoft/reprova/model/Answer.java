@@ -2,9 +2,9 @@ package br.ufmg.engsoft.reprova.model;
 
 public class Answer {
 	/**
-	 * Unique id of the answer
+	 * Unique identifier of the answer
 	 */
-	private String id;
+	private String identifier;
 	
 	/**
 	 * Reference to the parent question
@@ -24,10 +24,10 @@ public class Answer {
 	/**
 	 * Whether the question is private.
 	 */
-	private final boolean pvt;
+	private final boolean isPrivate;
 	
 	public String getId() {
-		return this.id;
+		return this.identifier;
 	}
 	
 	public String getDescription() {
@@ -38,8 +38,8 @@ public class Answer {
 		return this.attachment;
 	}
 	
-	public boolean getPvt() {
-	    return this.pvt;
+	public boolean isPvt() {
+	    return this.isPrivate;
 	}
 	
 	public String getQuestionId() {
@@ -49,21 +49,21 @@ public class Answer {
 	/**
      * Protected constructor, should only be used by the builder.
      */
-	protected Answer(String description, String attachment, boolean pvt, String questionId) {
+	protected Answer(String description, String attachment, boolean isPrivate, String questionId) {
 		this.description = description;
 		this.attachment = attachment;
-		this.pvt = pvt;
+		this.isPrivate = isPrivate;
 		this.questionId = questionId;
 	}
 	
 	public static class Builder {
-	    protected String id;
+	    protected String identifier;
 	    protected String description;
-	    protected boolean pvt;
+	    protected boolean isPrivate;
 	    protected String questionId;
 	    
-	    public Builder id(String id) {
-	        this.id = id;
+	    public Builder identifier(String identifier) {
+	        this.identifier = identifier;
 	        return this;
 	    }
 	    
@@ -72,8 +72,8 @@ public class Answer {
 	        return this;
 	    }
 	    
-	    public Builder pvt(boolean pvt) {
-	        this.pvt = pvt;
+	    public Builder isPrivate(boolean isPrivate) {
+	        this.isPrivate = isPrivate;
 	        return this;
 	    }
 	    
@@ -84,9 +84,9 @@ public class Answer {
 	    
 	    public Answer build() {
 	        return new Answer(
-                this.id,
+                this.identifier,
                 this.description,
-                this.pvt,
+                this.isPrivate,
                 this.questionId
 	        );
 	    }

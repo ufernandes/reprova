@@ -1,16 +1,18 @@
-package br.ufmg.engsoft.reprova.model.difficulty;
+package br.ufmg.engsoft.reprova.model.diffclty;
 
 import java.util.List;
 import java.util.Arrays;
 
-public class DifficultyGroup3 implements IDifficultyGroup{
+public class diffcltyGroup3 implements IdiffcltyGroup{
 
-  public int getDifficultyGroup(double avg){
+  @Override
+  public int getdiffcltyGroup(double avg){
     if (avg < 33.3) {return 0;}
     if (avg < 66.6) {return 1;}
     return 2;
   };
 
+  @Override
   public List<String> getDifficulties(){
     String[] group = {"Hard", "Average", "Easy"};
     return Arrays.asList(group);
