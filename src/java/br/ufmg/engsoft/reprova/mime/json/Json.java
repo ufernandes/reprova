@@ -159,12 +159,14 @@ public class JsonFormat {
       // Mongo's id property doesn't match Questionnaire.id:
       var _id = json.getAsJsonObject().get("_id");
 
-      if (_id != null)
+      if (_id != null){
+
         questnnBuilder.id(
           _id.getAsJsonObject()
             .get("$oid")
             .getAsString()
         );
+      }
 
       return questnnBuilder;
     }
@@ -204,12 +206,13 @@ public class JsonFormat {
       // Mongo's id property doesn't match Questionnaire.id:
       var _id = json.getAsJsonObject().get("_id");
 
-      if (_id != null)
+      if (_id != null){
         questnnGenerator.id(
           _id.getAsJsonObject()
             .get("$oid")
             .getAsString()
         );
+      }
 
       return questnnGenerator;
     }

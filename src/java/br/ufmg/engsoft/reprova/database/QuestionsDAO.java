@@ -210,8 +210,9 @@ public class QuestionsDAO {
      * @throws IllegalArgumentException if any parameter is null
      */
     public boolean remove(String identifier) {
-        if (identifier == null)
+        if (identifier == null){
             throw new IllegalArgumentException("identifier mustn't be null");
+        }
 
         var result = this.collection.deleteOne(eq(new ObjectId(identifier))).wasAcknowledged();
 
