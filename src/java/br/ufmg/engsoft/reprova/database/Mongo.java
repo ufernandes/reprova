@@ -36,7 +36,7 @@ public class Mongo {
    * @param mongoDB  the database name.
    */
   public Mongo(String mongoDB) {
-	System.out.println(Mongo.ENDPOINT);
+	// System.out.println(Mongo.ENDPOINT);
 	  
     this.mongoDB = MongoClients
       .create(Mongo.ENDPOINT)

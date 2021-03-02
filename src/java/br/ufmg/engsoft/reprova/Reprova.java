@@ -18,7 +18,7 @@ public class Reprova {
     try {
     	mongoDB = new Mongo("reprova");
     } catch(Exception e) {
-    	System.out.println(e);
+    	//System.out.println(e);
     	return;
     }
 
