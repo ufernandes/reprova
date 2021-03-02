@@ -149,7 +149,7 @@ public class JsonFormat {
         new SemesterDeserializer()
       );
 
-      var questionnaireBuilder = parserBuilder
+      var questnnBuilder = parserBuilder
         .create()
         .fromJson(
           json.getAsJsonObject(),
@@ -160,13 +160,13 @@ public class JsonFormat {
       var _id = json.getAsJsonObject().get("_id");
 
       if (_id != null)
-        questionnaireBuilder.id(
+        questnnBuilder.id(
           _id.getAsJsonObject()
             .get("$oid")
             .getAsString()
         );
 
-      return questionnaireBuilder;
+      return questnnBuilder;
     }
   }
 
@@ -194,7 +194,7 @@ public class JsonFormat {
         new SemesterDeserializer()
       );
 
-      var questionnaireGenerator = parserBuilder
+      var questnnGenerator = parserBuilder
         .create()
         .fromJson(
           json.getAsJsonObject(),
@@ -205,13 +205,13 @@ public class JsonFormat {
       var _id = json.getAsJsonObject().get("_id");
 
       if (_id != null)
-        questionnaireGenerator.id(
+        questnnGenerator.id(
           _id.getAsJsonObject()
             .get("$oid")
             .getAsString()
         );
 
-      return questionnaireGenerator;
+      return questnnGenerator;
     }
   }
 

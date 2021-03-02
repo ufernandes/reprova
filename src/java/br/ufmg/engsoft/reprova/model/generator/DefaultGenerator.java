@@ -9,12 +9,12 @@ import br.ufmg.engsoft.reprova.database.QuestionsDAO;
 
 public class DefaultGenerator implements IQuestionnaireGenerator{
 
-  public Questionnaire generate(QuestionsDAO questionsDAO, String averageDifficulty, int questionsCount, int totalEstimatedTime){
-    if (totalEstimatedTime == 0){
-      totalEstimatedTime = Questionnaire.DEFAULT_ESTIMATED_TIME_MINUTES;
+  public Questionnaire generate(QuestionsDAO questionsDAO, String avrgdiffclty, int questionsCount, int totEstmtdTime){
+    if (totEstmtdTime == 0){
+      totEstmtdTime = Questionnaire.ESTMTD_TIME_MINS;
     }
     if (questionsCount == 0){
-      questionsCount = Questionnaire.DEFAULT_QUESTIONS_COUNT;
+      questionsCount = Questionnaire.QUESTIONS_COUNT;
     }
 
     ArrayList<Question> questions = new ArrayList<Question>();
@@ -30,8 +30,8 @@ public class DefaultGenerator implements IQuestionnaireGenerator{
     }
 
     return new Questionnaire.Builder()
-                .averageDifficulty(averageDifficulty)
-                .totalEstimatedTime(totalEstimatedTime)
+                .avrgdiffclty(avrgdiffclty)
+                .totEstmtdTime(totEstmtdTime)
                 .questions(questions)
                 .build();
   };

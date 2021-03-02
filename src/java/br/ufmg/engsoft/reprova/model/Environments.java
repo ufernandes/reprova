@@ -9,49 +9,49 @@ public class Environments {
 	private String token;
 	private int port;
 	
-	private int difficultyGroup;
+	private int diffcltyGroup;
 	
-	private boolean enableAnswers;
-	private boolean enableQuestionnaires;
-	private boolean enableEstimatedTime;
-	private boolean enableMultipleChoice;
-	private boolean enableQuestionStatistics;
+	private boolean enAnswers;
+	private boolean enQuestnns;
+	private boolean enEstmtdTime;
+	private boolean enMpleChoice;
+	private boolean enQuestStats;
 
 	private Environments() {		
-		Optional<String> enableAnswersEnv = Optional.ofNullable(System.getenv("ENABLE_ANSWERS"));
-		enableAnswersEnv.ifPresentOrElse(
-			enableAnswers -> this.enableAnswers = enableAnswers.toLowerCase().equals("true"),
-			() -> this.enableAnswers = false
+		Optional<String> enAnswersEnv = Optional.ofNullable(System.getenv("ENABLE_ANSWERS"));
+		enAnswersEnv.ifPresentOrElse(
+			enAnswers -> this.enAnswers = enAnswers.toLowerCase().equals("true"),
+			() -> this.enAnswers = false
 		);
 		
-		Optional<String> enableQuestionStatisticsEnv = Optional.ofNullable(System.getenv("ENABLE_STATISTICS"));
-		enableQuestionStatisticsEnv.ifPresentOrElse(
-				enableQuestionStatistics -> this.enableQuestionStatistics = enableQuestionStatistics.toLowerCase().equals("true"),
-			() -> this.enableQuestionStatistics = false
+		Optional<String> enQuestStatisticsEnv = Optional.ofNullable(System.getenv("ENABLE_STATISTICS"));
+		enQuestStatisticsEnv.ifPresentOrElse(
+				enQuestStats -> this.enQuestStats = enQuestStats.toLowerCase().equals("true"),
+			() -> this.enQuestStats = false
 		);
 		
-		Optional<String> enableQuestionnairesEnv = Optional.ofNullable(System.getenv("ENABLE_QUESTIONNAIRES"));
-		enableQuestionnairesEnv.ifPresentOrElse(
-			enableQuestionnaires -> this.enableQuestionnaires = enableQuestionnaires.toLowerCase().equals("true"),
-			() -> this.enableQuestionnaires = false
+		Optional<String> enQuestnnEnv = Optional.ofNullable(System.getenv("ENABLE_QUESTIONNAIRES"));
+		enQuestnnEnv.ifPresentOrElse(
+			enQuestnns -> this.enQuestnns = enQuestnns.toLowerCase().equals("true"),
+			() -> this.enQuestnns = false
 		);
 								
-		Optional<String> enableEstimatedTimeEnv = Optional.ofNullable(System.getenv("ENABLE_ESTIMATED_TIME"));
-		enableEstimatedTimeEnv.ifPresentOrElse(
-			enableEstimatedTime -> this.enableEstimatedTime = enableEstimatedTime.toLowerCase().equals("true"),
-			() -> this.enableEstimatedTime = false
+		Optional<String> enEstmtdTimeEnv = Optional.ofNullable(System.getenv("ENABLE_ESTIMATED_TIME"));
+		enEstmtdTimeEnv.ifPresentOrElse(
+			enEstmtdTime -> this.enEstmtdTime = enEstmtdTime.toLowerCase().equals("true"),
+			() -> this.enEstmtdTime = false
 		);
 		
-		Optional<String> enableMultipleChoiceEnv = Optional.ofNullable(System.getenv("ENABLE_MULTIPLE_CHOICE"));
-		enableMultipleChoiceEnv.ifPresentOrElse(
-			enableMultipleChoice -> this.enableMultipleChoice = enableMultipleChoice.toLowerCase().equals("true"),
-			() -> this.enableMultipleChoice = false
+		Optional<String> enMpleChoiceEnv = Optional.ofNullable(System.getenv("ENABLE_MULTIPLE_CHOICE"));
+		enMpleChoiceEnv.ifPresentOrElse(
+			enMpleChoice -> this.enMpleChoice = enMpleChoice.toLowerCase().equals("true"),
+			() -> this.enMpleChoice = false
 		);
 
-		Optional<String> envDifficultyGroup = Optional.ofNullable(System.getenv("DIFFICULTY_GROUP"));
-		envDifficultyGroup.ifPresentOrElse(
-			difficultyGroup -> this.difficultyGroup = Integer.parseInt(envDifficultyGroup.get()),
-			() -> this.difficultyGroup = 0
+		Optional<String> envDiffcltyGroup = Optional.ofNullable(System.getenv("diffclty_GROUP"));
+		envDiffcltyGroup.ifPresentOrElse(
+			diffcltyGroup -> this.diffcltyGroup = Integer.parseInt(envDiffcltyGroup.get()),
+			() -> this.diffcltyGroup = 0
 		);
 		
 		this.port = Integer.parseInt(System.getenv("PORT"));
@@ -68,27 +68,27 @@ public class Environments {
 	}
 	
 	public boolean getEnableAnswers() {
-		return this.enableAnswers;
+		return this.enAnswers;
 	}
 	
-	public boolean getEnableQuestionnaires() {
-		return this.enableQuestionnaires;
+	public boolean getEnableQuestnaires() {
+		return this.enQuestnns;
 	}
 
 	public boolean getEnableEstimatedTime() {
-		return this.enableEstimatedTime;
+		return this.enEstmtdTime;
 	}
 	
-	public boolean getEnableMultipleChoice() {
-		return this.enableMultipleChoice;
+	public boolean getenMpleChoice() {
+		return this.enMpleChoice;
 	}
 	
-	public boolean getEnableQuestionStatistics() {
-		return this.enableQuestionStatistics;
+	public boolean getEnableQuestStatistics() {
+		return this.enQuestStats;
 	}
 
-	public int getDifficultyGroup() {
-		return this.difficultyGroup;
+	public int getdiffcltyGroup() {
+		return this.diffcltyGroup;
 	}
 	
 	public String getToken() {

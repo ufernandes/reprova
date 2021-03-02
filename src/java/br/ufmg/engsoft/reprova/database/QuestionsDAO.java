@@ -133,7 +133,7 @@ public class QuestionsDAO {
 
         doc.projection(fields(exclude("statement"))).map(this::parseDoc).into(result);
         
-        if(Environments.getInstance().getEnableQuestionStatistics()){
+        if(Environments.getInstance().getenQuestStats()){
             for (var question : result){
                 question.getStatistics();
             }
@@ -155,7 +155,7 @@ public class QuestionsDAO {
             throw new IllegalArgumentException("question mustn't be null");
         }
 
-        question.calculateDifficulty();
+        question.calculatediffclty();
         Map<String, Object> record = null;
         if (question.record != null) {
             record = question.record // Convert the keys to string,
@@ -174,14 +174,14 @@ public class QuestionsDAO {
             doc = doc.append("estimatedTime", question.estimatedTime);
         }
 
-        if (Environments.getInstance().getDifficultyGroup() != 0){
-            doc = doc.append("difficulty", question.difficulty);
+        if (Environments.getInstance().getdiffcltyGroup() != 0){
+            doc = doc.append("diffclty", question.diffclty);
         }
         
-        if (Environments.getInstance().getEnableMultipleChoice()) {
+        if (Environments.getInstance().getenMpleChoice()) {
             doc = doc.append("choices", question.getChoices());
         }
-        if (Environments.getInstance().getEnableQuestionStatistics()) {
+        if (Environments.getInstance().getenQuestStats()) {
             doc = doc.append("statistics", question.getStatistics());
         }
 

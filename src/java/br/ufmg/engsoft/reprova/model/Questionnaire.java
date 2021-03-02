@@ -20,21 +20,21 @@ public class Questionnaire{
    */
   public final ArrayList<Question> questions;
   /**
-   * The Questionnaire's average difficulty.
+   * The Questionnaire's average diffclty.
    */
-  public final String averageDifficulty;
+  public final String avrgdiffclty;
   /**
    * The Questionnaire's total estimated time.
    */
-  public int totalEstimatedTime;
+  public int totEstmtdTime;
   
-  public static final int DEFAULT_ESTIMATED_TIME_MINUTES = 60;
-  public static final int DEFAULT_QUESTIONS_COUNT = 5;
+  public static final int ESTMTD_TIME_MINS = 60;
+  public static final int QUESTIONS_COUNT = 5;
 
   public static class Generator{
     protected String identifier;
-    protected String averageDifficulty;
-    protected int totalEstimatedTime;
+    protected String avrgdiffclty;
+    protected int totEstmtdTime;
     protected int questionsCount;
 
     public Generator identifier(String identifier){
@@ -42,13 +42,13 @@ public class Questionnaire{
       return this;
     }
 
-    public Generator averageDifficulty(String averageDifficulty){
-      this.averageDifficulty = averageDifficulty;
+    public Generator avrgdiffclty(String avrgdiffclty){
+      this.avrgdiffclty = avrgdiffclty;
       return this;
     }
 
-    public Generator totalEstimatedTime(int totalEstimatedTime){
-      this.totalEstimatedTime = totalEstimatedTime;
+    public Generator totEstmtdTime(int totEstmtdTime){
+      this.totEstmtdTime = totEstmtdTime;
       return this;
     }
 
@@ -67,14 +67,14 @@ public class Questionnaire{
         generationChain.setNext(new EstimatedTimeCalculator());
       }
 
-      return generationChain.generate(questionsDAO, this.averageDifficulty, this.questionsCount, this.totalEstimatedTime);
+      return generationChain.generate(questionsDAO, this.avrgdiffclty, this.questionsCount, this.totEstmtdTime);
     }
   }
 
   public static class Builder{
     protected String identifier;
-    protected String averageDifficulty;
-    protected int totalEstimatedTime;
+    protected String avrgdiffclty;
+    protected int totEstmtdTime;
     protected ArrayList<Question> questions;
 
     public Builder identifier(String identifier){
@@ -82,13 +82,13 @@ public class Questionnaire{
       return this;
     }
 
-    public Builder averageDifficulty(String averageDifficulty){
-      this.averageDifficulty = averageDifficulty;
+    public Builder avrgdiffclty(String avrgdiffclty){
+      this.avrgdiffclty = avrgdiffclty;
       return this;
     }
 
-    public Builder totalEstimatedTime(int totalEstimatedTime){
-      this.totalEstimatedTime = totalEstimatedTime;
+    public Builder totEstmtdTime(int totEstmtdTime){
+      this.totEstmtdTime = totEstmtdTime;
       return this;
     }
 
@@ -115,8 +115,8 @@ public class Questionnaire{
 
       return new Questionnaire(
         this.identifier,
-        this.averageDifficulty,
-        this.totalEstimatedTime,
+        this.avrgdiffclty,
+        this.totEstmtdTime,
         this.questions
       );
     }
@@ -127,14 +127,14 @@ public class Questionnaire{
    */
   protected Questionnaire(
     String identifier,
-    String averageDifficulty,
-    int totalEstimatedTime,
+    String avrgdiffclty,
+    int totEstmtdTime,
     ArrayList<Question> questions
   ){
     this.identifier = identifier;
     this.questions = questions;
-    this.averageDifficulty = averageDifficulty;
-    this.totalEstimatedTime = totalEstimatedTime;
+    this.avrgdiffclty = avrgdiffclty;
+    this.totEstmtdTime = totEstmtdTime;
   }
 
   /**
@@ -146,8 +146,8 @@ public class Questionnaire{
 
     builder.append("Questionnaire:\n");
     builder.append("  identifier: " + this.identifier + "\n");
-    builder.append("  averageDifficulty: " + this.averageDifficulty + "\n");
-    builder.append("  totalEstimatedTime: " + this.totalEstimatedTime + "\n");
+    builder.append("  avrgdiffclty: " + this.avrgdiffclty + "\n");
+    builder.append("  totEstmtdTime: " + this.totEstmtdTime + "\n");
     builder.append("  questions:\n");
     for (var question : this.questions){
       builder.append("    identifier: " + question.identifier + "\n");
@@ -155,7 +155,7 @@ public class Questionnaire{
       builder.append("      desc: " + question.description + "\n");
       builder.append("      record: " + question.record + "\n");
       builder.append("      pvt: " + question.pvt + "\n");
-      builder.append("      difficulty: " + question.difficulty + "\n");
+      builder.append("      diffclty: " + question.diffclty + "\n");
 
       if (question.statement != null) {
         builder.append(

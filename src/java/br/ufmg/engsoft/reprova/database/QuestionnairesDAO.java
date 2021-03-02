@@ -168,23 +168,23 @@ public class QuestionnairesDAO {
         doc = doc.append("estimatedTime", question.estimatedTime);
       }
       
-      if (Environments.getInstance().getEnableMultipleChoice()){
+      if (Environments.getInstance().getenMpleChoice()){
         doc = doc.append("choices", question.getChoices());
       }
 
-      if (Environments.getInstance().getDifficultyGroup() != 0){
-        doc = doc.append("difficulty", question.difficulty);
+      if (Environments.getInstance().getdiffcltyGroup() != 0){
+        doc = doc.append("diffclty", question.diffclty);
       }
       
       questions.add(doc);
     }
 
     Document doc = new Document()
-        .append("averageDifficulty", questionnaire.averageDifficulty)
+        .append("avrgdiffclty", questionnaire.avrgdiffclty)
         .append("questions", questions);
 
     if (Environments.getInstance().getEnableEstimatedTime()){
-      doc = doc.append("totalEstimatedTime", questionnaire.totalEstimatedTime);
+      doc = doc.append("totEstmtdTime", questionnaire.totEstmtdTime);
     }
     
     var identifier = questionnaire.identifier;

@@ -252,7 +252,7 @@ public class Questionnaires {
   /**
    * Generate endpoint: create a questionnaire in the database.
    * The parameters for the questionnaire's generation must be supplied in the request's body.
-   * Such parameters must include the averageDifficulty and may include totalEstimatedTime.
+   * Such parameters must include the avrgdiffclty and may include totEstmtdTime.
    * This endpoint is for authorized access only.
    */
   protected Object generate(Request request, Response response){
