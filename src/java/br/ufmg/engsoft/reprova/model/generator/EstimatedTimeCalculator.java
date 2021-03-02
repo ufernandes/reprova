@@ -5,6 +5,7 @@ import br.ufmg.engsoft.reprova.model.Questionnaire;
 
 public class EstimatedTimeCalculator extends ChainQuestionnaireGeneration{
 
+  @Override
   public Questionnaire generate(Questionnaire questionnaire){
     int totEstmtdTime = 0;
     

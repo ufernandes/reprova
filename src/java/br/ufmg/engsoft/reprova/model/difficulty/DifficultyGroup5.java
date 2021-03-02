@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 public class diffcltyGroup5 implements IdiffcltyGroup{
 
+  @Override
   public int getdiffcltyGroup(double avg){
     if (avg < 20) {return 0;}
     if (avg < 40) {return 1;}
@@ -13,6 +14,7 @@ public class diffcltyGroup5 implements IdiffcltyGroup{
     return 4;
   };
 
+  @Override
   public List<String> getDifficulties(){
     String[] group = {"Very Hard", "Hard", "Average", "Easy", "Very Easy"};
     return Arrays.asList(group);

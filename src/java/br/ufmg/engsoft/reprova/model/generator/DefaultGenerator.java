@@ -9,6 +9,7 @@ import br.ufmg.engsoft.reprova.database.QuestionsDAO;
 
 public class DefaultGenerator implements IQuestionnaireGenerator{
 
+  @Override
   public Questionnaire generate(QuestionsDAO questionsDAO, String avrgdiffclty, int questionsCount, int totEstmtdTime){
     if (totEstmtdTime == 0){
       totEstmtdTime = Questionnaire.ESTMTD_TIME_MINS;
