@@ -110,7 +110,7 @@ public class Questions extends ReprovaRoute {
     }
 
     if (question.pvt && !auth) {
-      logger.info("Unauthorized token: " + token);
+      logger.info("Unauthorized token: " + TOKEN);
       response.status(403);
       return unauthorized;
     }

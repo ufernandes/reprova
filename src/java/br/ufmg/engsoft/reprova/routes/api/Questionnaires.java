@@ -28,7 +28,7 @@ public class Questionnaires {
   /**
    * Access token.
    */
-  protected static final String token = System.getenv("REPROVA_TOKEN");
+  protected static final String TOKEN = System.getenv("REPROVA_TOKEN");
 
   /**
    * Messages.
@@ -99,7 +99,7 @@ public class Questionnaires {
    * Check if the given token is authorized.
    */
   protected static boolean authorized(String token) {
-    return Questionnaires.token.equals(token);
+    return Questionnaires.TOKEN.equals(token);
   }
 
   /**

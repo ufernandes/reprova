@@ -5,7 +5,7 @@ public abstract class ReprovaRoute {
     /**
      * Access token.
      */
-    protected static final String token = Environments.getInstance().getToken();
+    protected static final String TOKEN = Environments.getInstance().getToken();
 
     /**
      * Messages.
@@ -15,10 +15,10 @@ public abstract class ReprovaRoute {
     protected static final String okStatus = "\"Ok\"";
     
     /**
-     * Check if the given token is authorized.
+     * Check if the given TOKEN is authorized.
      */
     protected static boolean authorized(String token) {
-      return ReprovaRoute.token.equals(token);
+      return ReprovaRoute.TOKEN.equals(token);
     }
 
 }
