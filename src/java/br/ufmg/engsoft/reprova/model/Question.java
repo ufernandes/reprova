@@ -169,28 +169,28 @@ public class Question {
     	  this.statistics = new HashMap<String, Double>();
       }
 
-      if (!Environments.getInstance().isEnableEstimatedTime()){
-        this.estimatedTime = null;
+      if (Environments.getInstance().isEnableEstimatedTime()){
+    	  this.estimatedTime = estimatedTime;
       } else {
-        this.estimatedTime = estimatedTime;
+    	  this.estimatedTime = null;
       }
       
-      if (!Environments.getInstance().isEnableMultipleChoice()){
-        this.choices = null;
+      if (Environments.getInstance().isEnableMultipleChoice()){
+    	  this.choices = choices;
       } else {
-        this.choices = choices;
+    	  this.choices = null;
       }
 
       Environments environments = Environments.getInstance();
 
-      if (environments.getDifficultyGroup() != 0) {
-    	// TODO validate possible values (3 and 5)
+      if (environments.getDifficultyGroup() == 0) {
+    	  this.difficultyGroup = null;
+      } else {
+    	  // TODO validate possible values (3 and 5)
     	int valueDifficultyGroup = environments.getDifficultyGroup();
     	this.difficultyGroup = new DifficultyFactory()
     								.getDifficulty(valueDifficultyGroup)
     								.getDifficulties();
-      } else {
-        this.difficultyGroup = null;
       }
 
       return new Question(

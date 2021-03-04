@@ -174,19 +174,19 @@ public class AnswersDAO {
       .append("questionId", questionId);
 
     String identifier = answer.getId();
-    if (identifier != null) {
-      var result = this.collection.replaceOne(
-        eq(new ObjectId(identifier)),
-        doc
-      );
+    if (identifier == null) {
+    	this.collection.insertOne(doc);
+    }
+    else {
+		var result = this.collection.replaceOne(
+		        eq(new ObjectId(identifier)),
+		        doc
+		      );
 
       if (!result.wasAcknowledged()) {
         logger.warn("Failed to replace answer " + identifier);
         return false;
       }
-    }
-    else {
-      this.collection.insertOne(doc);
     }
 
     logger.info("Stored answer " + doc.get("_id"));

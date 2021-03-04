@@ -187,15 +187,15 @@ public class QuestionsDAO {
         }
 
         var id = question.id;
-        if (id != null) {
-            var result = this.collection.replaceOne(eq(new ObjectId(id)), doc);
+        if (id == null) {
+        	this.collection.insertOne(doc);
+        } else {
+        	var result = this.collection.replaceOne(eq(new ObjectId(id)), doc);
 
             if (!result.wasAcknowledged()) {
                 logger.warn("Failed to replace question " + id);
                 return false;
             }
-        } else {
-            this.collection.insertOne(doc);
         }
 
         logger.info("Stored question " + doc.get("_id"));

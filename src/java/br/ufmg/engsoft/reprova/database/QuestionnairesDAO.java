@@ -188,19 +188,19 @@ public class QuestionnairesDAO {
     }
     
     var id = questionnaire.id;
-    if (id != null) {
-      var result = this.collection.replaceOne(
-        eq(new ObjectId(id)),
-        doc
-      );
-
-      if (!result.wasAcknowledged()) {
-        logger.warn("Failed to replace questionnaire " + id);
-        return false;
-      }
+    if (id == null) {
+    	this.collection.insertOne(doc);
     }
     else {
-      this.collection.insertOne(doc);
+    	var result = this.collection.replaceOne(
+    	        eq(new ObjectId(id)),
+    	        doc
+    	      );
+
+	      if (!result.wasAcknowledged()) {
+	        logger.warn("Failed to replace questionnaire " + id);
+	        return false;
+	      }
     }
     logger.info("Stored questionnaire " + doc.get("_id"));
 
