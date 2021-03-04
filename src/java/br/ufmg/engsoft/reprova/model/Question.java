@@ -165,17 +165,17 @@ public class Question {
         }    
       }
       
-      if (this.statistics == null && Environments.getInstance().getEnableQuestionStatistics()) {
+      if (this.statistics == null && Environments.getInstance().isEnableQuestionStatistics()) {
     	  this.statistics = new HashMap<String, Double>();
       }
 
-      if (!Environments.getInstance().getEnableEstimatedTime()){
+      if (!Environments.getInstance().isEnableEstimatedTime()){
         this.estimatedTime = null;
       } else {
         this.estimatedTime = estimatedTime;
       }
       
-      if (!Environments.getInstance().getEnableMultipleChoice()){
+      if (!Environments.getInstance().isEnableMultipleChoice()){
         this.choices = null;
       } else {
         this.choices = choices;

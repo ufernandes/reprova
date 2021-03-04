@@ -164,11 +164,11 @@ public class QuestionnairesDAO {
           .append("record", record == null ? null : new Document(record))
           .append("pvt", question.pvt);
       
-      if (Environments.getInstance().getEnableEstimatedTime()){
+      if (Environments.getInstance().isEnableEstimatedTime()){
         doc = doc.append("estimatedTime", question.estimatedTime);
       }
       
-      if (Environments.getInstance().getEnableMultipleChoice()){
+      if (Environments.getInstance().isEnableMultipleChoice()){
         doc = doc.append("choices", question.getChoices());
       }
 
@@ -183,7 +183,7 @@ public class QuestionnairesDAO {
         .append("averageDifficulty", questionnaire.averageDifficulty)
         .append("questions", questions);
 
-    if (Environments.getInstance().getEnableEstimatedTime()){
+    if (Environments.getInstance().isEnableEstimatedTime()){
       doc = doc.append("totalEstimatedTime", questionnaire.totalEstimatedTime);
     }
     

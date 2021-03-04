@@ -134,7 +134,7 @@ public class QuestionsDAO {
 
         doc.projection(fields(exclude("statement"))).map(this::parseDoc).into(result);
         
-        if(Environments.getInstance().getEnableQuestionStatistics()){
+        if(Environments.getInstance().isEnableQuestionStatistics()){
             for (var question : result){
                 question.getStatistics();
             }
@@ -171,7 +171,7 @@ public class QuestionsDAO {
                 .append("record", record == null ? null : new Document(record))
                 .append("pvt", question.pvt);
 
-        if (Environments.getInstance().getEnableEstimatedTime()){
+        if (Environments.getInstance().isEnableEstimatedTime()){
             doc = doc.append("estimatedTime", question.estimatedTime);
         }
 
@@ -179,10 +179,10 @@ public class QuestionsDAO {
             doc = doc.append("difficulty", question.difficulty);
         }
         
-        if (Environments.getInstance().getEnableMultipleChoice()) {
+        if (Environments.getInstance().isEnableMultipleChoice()) {
             doc = doc.append("choices", question.getChoices());
         }
-        if (Environments.getInstance().getEnableQuestionStatistics()) {
+        if (Environments.getInstance().isEnableQuestionStatistics()) {
             doc = doc.append("statistics", question.getStatistics());
         }
 

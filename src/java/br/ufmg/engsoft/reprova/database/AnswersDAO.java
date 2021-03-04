@@ -170,7 +170,7 @@ public class AnswersDAO {
 
     Document doc = new Document()
       .append("description", answer.getDescription())
-      .append("pvt", answer.getPvt())
+      .append("pvt", answer.isPvt())
       .append("questionId", questionId);
 
     String identifier = answer.getId();
