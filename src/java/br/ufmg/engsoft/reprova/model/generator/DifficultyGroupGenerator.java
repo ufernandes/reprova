@@ -39,6 +39,7 @@ public class DifficultyGroupGenerator implements IQuestionnaireGenerator{
    * Selects a collection of questions the best fit the parameters.
    * Calls the Questionnaire's Builder.
    */
+  @Override
   public Questionnaire generate(QuestionsDAO questionsDAO, String averageDifficulty, int questionsCount, int totalEstimatedTime){
     Environments environments = Environments.getInstance();
     int valueDifficultyGroup = environments.getDifficultyGroup();
