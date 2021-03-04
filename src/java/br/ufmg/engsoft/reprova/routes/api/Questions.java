@@ -190,7 +190,7 @@ public class Questions extends ReprovaRoute {
 
     logger.info("Done. Responding...");
 
-    return ok;
+    return okStatus;
   }
 
 
@@ -230,7 +230,7 @@ public class Questions extends ReprovaRoute {
               : 400
     );
 
-    return ok;
+    return okStatus;
   }
 
   /**
@@ -270,6 +270,6 @@ public class Questions extends ReprovaRoute {
               : 400
     );
 
-    return ok;
+    return okStatus;
   }
 }

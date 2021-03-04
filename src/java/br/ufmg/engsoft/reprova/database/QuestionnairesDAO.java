@@ -42,18 +42,18 @@ public class QuestionnairesDAO {
 
   /**
    * Basic constructor.
-   * @param db    the database, mustn't be null
+   * @param mongoDB    the database, mustn't be null
    * @param json  the json formatter for the database's documents, mustn't be null
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public QuestionnairesDAO(Mongo db, Json json) {
-    if (db == null)
+  public QuestionnairesDAO(Mongo mongoDB, Json json) {
+    if (mongoDB == null)
       throw new IllegalArgumentException("db mustn't be null");
 
     if (json == null)
       throw new IllegalArgumentException("json mustn't be null");
 
-    this.collection = db.getCollection("questionnaires");
+    this.collection = mongoDB.getCollection("questionnaires");
 
     this.json = json;
   }

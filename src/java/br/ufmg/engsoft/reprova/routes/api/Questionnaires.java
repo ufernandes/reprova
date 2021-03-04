@@ -35,7 +35,7 @@ public class Questionnaires {
    */
   protected static final String unauthorized = "\"Unauthorized\"";
   protected static final String invalid = "\"Invalid request\"";
-  protected static final String ok = "\"Ok\"";
+  protected static final String okStatus = "\"Ok\"";
 
   /**
    * Json formatter.
@@ -246,7 +246,7 @@ public class Questionnaires {
 
     logger.info("Done. Responding...");
 
-    return ok;
+    return okStatus;
   }
 
   /**
@@ -296,7 +296,7 @@ public class Questionnaires {
 
     logger.info("Done. Responding...");
 
-    return ok;
+    return okStatus;
   }
 
 
@@ -336,7 +336,7 @@ public class Questionnaires {
               : 400
     );
 
-    return ok;
+    return okStatus;
   }
 
   /**
@@ -377,6 +377,6 @@ public class Questionnaires {
               : 400
     );
 
-    return ok;
+    return okStatus;
   }
 }

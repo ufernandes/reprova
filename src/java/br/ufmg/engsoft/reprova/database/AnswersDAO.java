@@ -47,8 +47,8 @@ public class AnswersDAO {
    * @param json  the json formatter for the database's documents, mustn't be null
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public AnswersDAO(Mongo db, Json json) {
-    if (db == null) {
+  public AnswersDAO(Mongo mongo_db, Json json) {
+    if (mongo_db == null) {
       throw new IllegalArgumentException("db mustn't be null");
     }
 
@@ -56,7 +56,7 @@ public class AnswersDAO {
       throw new IllegalArgumentException("json mustn't be null");
     }
 
-    this.collection = db.getCollection("answers");
+    this.collection = mongo_db.getCollection("answers");
 
     this.json = json;
   }
@@ -96,22 +96,22 @@ public class AnswersDAO {
 
   /**
    * Get the answer with the given id.
-   * @param id  the answer's id in the database.
+   * @param identifier  the answer's id in the database.
    * @return The answer, or null if no such question.
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public Answer get(String id) {
-    if (id == null) {
+  public Answer get(String identifier) {
+    if (identifier == null) {
       throw new IllegalArgumentException("id mustn't be null");
     }
 
     var answer = this.collection
-      .find(eq(new ObjectId(id)))
+      .find(eq(new ObjectId(identifier)))
       .map(this::parseDoc)
       .first();
 
     if (answer == null) {
-      logger.info("No such answer " + id);
+      logger.info("No such answer " + identifier);
     }
 
     return answer;
@@ -173,15 +173,15 @@ public class AnswersDAO {
       .append("pvt", answer.getPvt())
       .append("questionId", questionId);
 
-    String id = answer.getId();
-    if (id != null) {
+    String identifier = answer.getId();
+    if (identifier != null) {
       var result = this.collection.replaceOne(
-        eq(new ObjectId(id)),
+        eq(new ObjectId(identifier)),
         doc
       );
 
       if (!result.wasAcknowledged()) {
-        logger.warn("Failed to replace answer " + id);
+        logger.warn("Failed to replace answer " + identifier);
         return false;
       }
     }
@@ -197,23 +197,23 @@ public class AnswersDAO {
 
   /**
    * Remove the answer with the given id from the collection.
-   * @param id  the answer id
+   * @param identifier  the answer id
    * @return Whether the given question was removed.
    * @throws IllegalArgumentException  if any parameter is null
    */
-  public boolean remove(String id) {
-    if (id == null) {
+  public boolean remove(String identifier) {
+    if (identifier == null) {
       throw new IllegalArgumentException("id mustn't be null");
     }
 
     var result = this.collection.deleteOne(
-      eq(new ObjectId(id))
+      eq(new ObjectId(identifier))
     ).wasAcknowledged();
 
     if (result) {
-      logger.info("Deleted answer " + id);
+      logger.info("Deleted answer " + identifier);
     } else {
-      logger.warn("Failed to delete answer " + id);
+      logger.warn("Failed to delete answer " + identifier);
     }
 
     return result;
