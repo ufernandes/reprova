@@ -47,12 +47,12 @@ public class QuestionnairesDAO {
    * @throws IllegalArgumentException  if any parameter is null
    */
   public QuestionnairesDAO(Mongo mongoDB, Json json) {
-    if (mongoDB == null)
+    if (mongoDB == null) {
       throw new IllegalArgumentException("db mustn't be null");
-
-    if (json == null)
+    }
+    if (json == null) {
       throw new IllegalArgumentException("json mustn't be null");
-
+    }
     this.collection = mongoDB.getCollection("questionnaires");
 
     this.json = json;
@@ -67,9 +67,9 @@ public class QuestionnairesDAO {
    * @throws IllegalArgumentException  if the given document is an invalid Questionnaire
    */
   protected Questionnaire parseDoc(Document document) {
-    if (document == null)
+    if (document == null) {
       throw new IllegalArgumentException("document mustn't be null");
-
+    }
     var doc = document.toJson();
 
     logger.info("Fetched questionnaire: " + doc);
@@ -97,17 +97,17 @@ public class QuestionnairesDAO {
    * @throws IllegalArgumentException  if any parameter is null
    */
   public Questionnaire get(String id) {
-    if (id == null)
+    if (id == null) {
       throw new IllegalArgumentException("id mustn't be null");
-
+    }
     var questionnaire = this.collection
       .find(eq(new ObjectId(id)))
       .map(this::parseDoc)
       .first();
 
-    if (questionnaire == null)
+    if (questionnaire == null) {
       logger.info("No such questionnaire " + id);
-
+    }
     return questionnaire;
   }
 
@@ -199,9 +199,9 @@ public class QuestionnairesDAO {
         return false;
       }
     }
-    else
+    else {
       this.collection.insertOne(doc);
-
+    }
     logger.info("Stored questionnaire " + doc.get("_id"));
 
     return true;
@@ -215,18 +215,18 @@ public class QuestionnairesDAO {
    * @throws IllegalArgumentException  if any parameter is null
    */
   public boolean remove(String id) {
-    if (id == null)
+    if (id == null) {
       throw new IllegalArgumentException("id mustn't be null");
-
+    }
     var result = this.collection.deleteOne(
       eq(new ObjectId(id))
     ).wasAcknowledged();
 
-    if (result)
+    if (result) {
       logger.info("Deleted questionnaire " + id);
-    else
+    }else {
       logger.warn("Failed to delete questionnaire " + id);
-
+    }
     return result;
   }
 }
