@@ -34,7 +34,15 @@ public class Questionnaires {
    * Messages.
    */
   protected static final String unauthorized = "\"Unauthorized\"";
+  
+  /**
+   * Invalid request.
+   */
   protected static final String invalid = "\"Invalid request\"";
+  
+  /**
+   * OkStatus.
+   */
   protected static final String okStatus = "\"Ok\"";
 
   /**
