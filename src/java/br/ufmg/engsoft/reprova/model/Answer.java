@@ -66,7 +66,7 @@ public class Answer {
 	        this.id = id;
 	        return this;
 	    }
-	    
+	    /* Builder description */
 	    public Builder description(String description) {
 	        this.description = description;
 	        return this;
