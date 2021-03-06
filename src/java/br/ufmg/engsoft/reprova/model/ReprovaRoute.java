@@ -5,20 +5,20 @@ public abstract class ReprovaRoute {
     /**
      * Access token.
      */
-    protected static final String token = Environments.getInstance().getToken();
+    protected static final String TOKEN = Environments.getInstance().getToken();
 
     /**
      * Messages.
      */
     protected static final String unauthorized = "\"Unauthorized\"";
     protected static final String invalid = "\"Invalid request\"";
-    protected static final String ok = "\"Ok\"";
+    protected static final String okStatus = "\"Ok\"";
     
     /**
-     * Check if the given token is authorized.
+     * Check if the given TOKEN is authorized.
      */
     protected static boolean authorized(String token) {
-      return ReprovaRoute.token.equals(token);
+      return ReprovaRoute.TOKEN.equals(token);
     }
 
 }

@@ -8,7 +8,6 @@ import static com.mongodb.client.model.Projections.fields;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -46,12 +45,12 @@ public class QuestionsDAO {
     /**
      * Basic constructor.
      *
-     * @param db   the database, mustn't be null
+     * @param mongoDB   the database, mustn't be null
      * @param json the json formatter for the database's documents, mustn't be null
      * @throws IllegalArgumentException if any parameter is null
      */
-    public QuestionsDAO(Mongo db, Json json) {
-        if (db == null) {
+    public QuestionsDAO(Mongo mongoDB, Json json) {
+        if (mongoDB == null) {
             throw new IllegalArgumentException("db mustn't be null");
         }
 
@@ -59,7 +58,7 @@ public class QuestionsDAO {
             throw new IllegalArgumentException("json mustn't be null");
         }
 
-        this.collection = db.getCollection("questions");
+        this.collection = mongoDB.getCollection("questions");
 
         this.json = json;
     }
@@ -134,7 +133,7 @@ public class QuestionsDAO {
 
         doc.projection(fields(exclude("statement"))).map(this::parseDoc).into(result);
         
-        if(Environments.getInstance().getEnableQuestionStatistics()){
+        if(Environments.getInstance().isEnableQuestionStatistics()){
             for (var question : result){
                 question.getStatistics();
             }
@@ -171,7 +170,7 @@ public class QuestionsDAO {
                 .append("record", record == null ? null : new Document(record))
                 .append("pvt", question.pvt);
 
-        if (Environments.getInstance().getEnableEstimatedTime()){
+        if (Environments.getInstance().isEnableEstimatedTime()){
             doc = doc.append("estimatedTime", question.estimatedTime);
         }
 
@@ -179,23 +178,23 @@ public class QuestionsDAO {
             doc = doc.append("difficulty", question.difficulty);
         }
         
-        if (Environments.getInstance().getEnableMultipleChoice()) {
+        if (Environments.getInstance().isEnableMultipleChoice()) {
             doc = doc.append("choices", question.getChoices());
         }
-        if (Environments.getInstance().getEnableQuestionStatistics()) {
+        if (Environments.getInstance().isEnableQuestionStatistics()) {
             doc = doc.append("statistics", question.getStatistics());
         }
 
         var id = question.id;
-        if (id != null) {
-            var result = this.collection.replaceOne(eq(new ObjectId(id)), doc);
+        if (id == null) {
+        	this.collection.insertOne(doc);
+        } else {
+        	var result = this.collection.replaceOne(eq(new ObjectId(id)), doc);
 
             if (!result.wasAcknowledged()) {
                 logger.warn("Failed to replace question " + id);
                 return false;
             }
-        } else {
-            this.collection.insertOne(doc);
         }
 
         logger.info("Stored question " + doc.get("_id"));
@@ -211,9 +210,9 @@ public class QuestionsDAO {
      * @throws IllegalArgumentException if any parameter is null
      */
     public boolean remove(String id) {
-        if (id == null)
+        if (id == null) {
             throw new IllegalArgumentException("id mustn't be null");
-
+        }
         var result = this.collection.deleteOne(eq(new ObjectId(id))).wasAcknowledged();
 
         if (result) {

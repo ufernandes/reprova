@@ -159,13 +159,13 @@ public class Json {
       // Mongo's id property doesn't match Questionnaire.id:
       var _id = json.getAsJsonObject().get("_id");
 
-      if (_id != null)
+      if (_id != null) {
         questionnaireBuilder.id(
           _id.getAsJsonObject()
             .get("$oid")
             .getAsString()
         );
-
+      }
       return questionnaireBuilder;
     }
   }
@@ -204,13 +204,13 @@ public class Json {
       // Mongo's id property doesn't match Questionnaire.id:
       var _id = json.getAsJsonObject().get("_id");
 
-      if (_id != null)
+      if (_id != null) {
         questionnaireGenerator.id(
           _id.getAsJsonObject()
             .get("$oid")
             .getAsString()
         );
-
+      }
       return questionnaireGenerator;
     }
   }

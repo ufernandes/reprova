@@ -67,23 +67,23 @@ public class Environments {
 		return environments;
 	}
 	
-	public boolean getEnableAnswers() {
+	public boolean isEnableAnswers() {
 		return this.enableAnswers;
 	}
 	
-	public boolean getEnableQuestionnaires() {
+	public boolean isEnableQuestionnaires() {
 		return this.enableQuestionnaires;
 	}
 
-	public boolean getEnableEstimatedTime() {
+	public boolean isEnableEstimatedTime() {
 		return this.enableEstimatedTime;
 	}
 	
-	public boolean getEnableMultipleChoice() {
+	public boolean isEnableMultipleChoice() {
 		return this.enableMultipleChoice;
 	}
 	
-	public boolean getEnableQuestionStatistics() {
+	public boolean isEnableQuestionStatistics() {
 		return this.enableQuestionStatistics;
 	}
 

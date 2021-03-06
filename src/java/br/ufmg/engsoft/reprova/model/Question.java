@@ -160,30 +160,30 @@ public class Question {
         }    
       }
       
-      if (this.statistics == null && environments.getEnableQuestionStatistics()) {
+      if (this.statistics == null && environments.isEnableQuestionStatistics()) {
     	  this.statistics = new HashMap<String, Double>();
       }
 
-      if (!environments.getEnableEstimatedTime()){
-        this.estimatedTime = null;
-      } else {
+      if (environments.isEnableEstimatedTime()){
         this.estimatedTime = estimatedTime;
+      } else {
+    	  this.estimatedTime = null;
       }
       
-      if (!environments.getEnableMultipleChoice()){
-        this.choices = null;
-      } else {
+      if (environments.isEnableMultipleChoice()){
         this.choices = choices;
+      } else {
+    	  this.choices = null;
       }
 
-      if (environments.getDifficultyGroup() != 0) {
-    	// TODO validate possible values (3 and 5)
-    	int valueDifficultyGroup = environments.getDifficultyGroup();
-    	this.difficultyGroup = new DifficultyFactory()
-    								.getDifficulty(valueDifficultyGroup)
-    								.getDifficulties();
+      if (environments.getDifficultyGroup() == 0) {
+    	  this.difficultyGroup = null;
       } else {
-        this.difficultyGroup = null;
+        // TODO validate possible values (3 and 5)
+        int valueDifficultyGroup = environments.getDifficultyGroup();
+        this.difficultyGroup = new DifficultyFactory()
+          .getDifficulty(valueDifficultyGroup)
+          .getDifficulties();
       }
 
       return new Question(
@@ -293,11 +293,11 @@ public class Question {
 	  if(gradeList.size() == 0) {
 		  return 0.0;
 	  }
-	  int i = gradeList.size()/2;
+	  int tempVar = gradeList.size()/2;
 	  if(gradeList.size() % 2 == 0) {
-		  return (gradeList.get(i-1) + gradeList.get(i))/2;
+		  return (gradeList.get(tempVar-1) + gradeList.get(tempVar))/2;
 	  } else {
-		  return gradeList.get(i);
+		  return gradeList.get(tempVar);
 	  }
 	 	  
   }

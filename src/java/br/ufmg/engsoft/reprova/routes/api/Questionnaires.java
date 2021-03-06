@@ -28,14 +28,14 @@ public class Questionnaires {
   /**
    * Access token.
    */
-  protected static final String token = System.getenv("REPROVA_TOKEN");
+  protected static final String TOKEN = System.getenv("REPROVA_TOKEN");
 
   /**
    * Messages.
    */
   protected static final String unauthorized = "\"Unauthorized\"";
   protected static final String invalid = "\"Invalid request\"";
-  protected static final String ok = "\"Ok\"";
+  protected static final String okStatus = "\"Ok\"";
 
   /**
    * Json formatter.
@@ -99,7 +99,7 @@ public class Questionnaires {
    * Check if the given token is authorized.
    */
   protected static boolean authorized(String token) {
-    return Questionnaires.token.equals(token);
+    return Questionnaires.TOKEN.equals(token);
   }
 
   /**
@@ -170,7 +170,7 @@ public class Questionnaires {
    *
    */
   private Question buildQuestion(Question question){
-    if (Environments.getInstance().getEnableEstimatedTime()){
+    if (Environments.getInstance().isEnableEstimatedTime()){
       return new Question.Builder()
                     .theme(question.theme)
                     .description(question.description)
@@ -246,7 +246,7 @@ public class Questionnaires {
 
     logger.info("Done. Responding...");
 
-    return ok;
+    return okStatus;
   }
 
   /**
@@ -296,7 +296,7 @@ public class Questionnaires {
 
     logger.info("Done. Responding...");
 
-    return ok;
+    return okStatus;
   }
 
 
@@ -336,7 +336,7 @@ public class Questionnaires {
               : 400
     );
 
-    return ok;
+    return okStatus;
   }
 
   /**
@@ -377,6 +377,6 @@ public class Questionnaires {
               : 400
     );
 
-    return ok;
+    return okStatus;
   }
 }
