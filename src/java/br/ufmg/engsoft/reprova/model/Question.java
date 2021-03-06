@@ -66,79 +66,90 @@ public class Question {
      * Builder for Question.
      */
     public static class Builder {
-	/* id */
+	/*id*/
         protected String id;
-	/* theme */
-        protected String theme;
-	/* description */  
-        protected String description;
-	/* statement */
+        /*theme*/
+	protected String theme;
+        /*description*/
+	protected String description;
+	/*statement*/
         protected String statement;
-	/* Map record */ 
+	/*record*/
         protected Map<Semester, Map<String, Map<String, Float>>> record;
-	/* pvt */ 
-        protected boolean pvt = true;
-	/* estimatedTime */ 
-        protected Integer estimatedTime;
-	/* difficulty */  
+        /*pvt*/
+	protected boolean pvt = true;
+        /*estimatedtime*/
+	protected Integer estimatedTime;
+	/*difficulty*/
         protected String difficulty;
-	/* difficultyGroup */  
+	/*diffilcultyGroup*/
         protected List<String> difficultyGroup;
-	/* Map choices*/
+	/*choices*/
         protected Map<String, Boolean> choices;
-	/* Map statistics */   
+	/*statistics*/
         protected Map<String, Double> statistics;
-	/* id */
+
+	/*id*/
         public Builder id(String id) {
             this.id = id;
             return this;
         }
-	/* theme */
+
+	/*theme*/
         public Builder theme(String theme) {
             this.theme = theme;
             return this;
         }
-	/* description */ 
+
+	/*description*/
         public Builder description(String description) {
             this.description = description;
             return this;
         }
-	/* statement */
+
+	/*statement*/
         public Builder statement(String statement) {
             this.statement = statement;
             return this;
         }
-	/* record */
+
+	    /*record*/
         public Builder record(Map<Semester, Map<String, Map<String, Float>>> record) {
             this.record = record;
             return this;
         }
-	/* pvt */
+
+	    /*pvt*/
         public Builder pvt(boolean pvt) {
             this.pvt = pvt;
             return this;
         }
-	/* choices */
+
+	    /*choices*/
         public Builder choices(Map<String, Boolean> choices) {
             this.choices = choices;
             return this;
         }
-	/* estimatedTime */
+
+	    /*estimated time*/
         public Builder estimatedTime(int estimatedTime) {
             this.estimatedTime = estimatedTime;
             return this;
         }
-	/**/
+
+	    /*difficulty*/
         public Builder difficulty(String difficulty) {
             this.difficulty = difficulty;
             return this;
         }
-   	/* statistics */     
+        
+	    /*statistics*/
         public Builder statistics(Map<String, Double> statistics) {
         	this.statistics = statistics;
         	return this;
         }
-	/* difficultyGroup */
+
+	    /*difficulty group*/
         public Builder difficultyGroup(List<String> difficulty) {
             this.difficultyGroup = difficulty;
             return this;
@@ -191,8 +202,7 @@ public class Question {
       } else {
     	  this.choices = null;
       }
-	
-      /* environments */
+
       Environments environments = Environments.getInstance();
 
       if (environments.getDifficultyGroup() == 0) {
@@ -249,12 +259,12 @@ public class Question {
 	this.choices = choices;
 	this.statistics = statistics;
   }
-	/**/
+	/*getchoices*/
 	public Map<String, Boolean> getChoices() {
 		return this.choices;
 	}
 	
-	
+	/*get statistics*/
 	public Map<String, Double> getStatistics(){
     	this.statistics.put("average", this.calculateGradeAverage());
     	this.statistics.put("Std Deviation", this.calculateGradeStandardDeviation());
@@ -290,7 +300,7 @@ public class Question {
 	        }
 	      }
 	    }
-	  /* stdDev */ 
+	  
 	  double stdDev = Math.sqrt(sum/(qtdNotas - 1));
 
 	  return stdDev;
@@ -298,7 +308,6 @@ public class Question {
   
   /* Calculate Grades Median */
   private double calculateGradeMedian() {
-	  /* gradeList */
 	  List<Float> gradeList = new ArrayList<Float>();
 	  
 	  for (Map.Entry<Semester, Map<String, Map<String, Float>>> entry : this.record.entrySet()) {
@@ -362,6 +371,7 @@ public class Question {
 							&& this.difficulty.equals(question.difficulty);
 	}
 
+	/*hash code*/
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.id, this.theme, this.description, this.statement, this.record, this.pvt,
@@ -373,7 +383,6 @@ public class Question {
 	 */
 	@Override
 	public String toString() {
-		/* new builder */
 		var builder = new StringBuilder();
 
 		builder.append("Question:\n");
